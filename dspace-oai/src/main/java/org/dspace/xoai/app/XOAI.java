@@ -201,10 +201,13 @@ public class XOAI {
             SolrDocumentList documents = DSpaceSolrSearch.query(solrServerResolver.getServer(), params);
             List<Item> items = new LinkedList<Item>();
             for (int i = 0; i < documents.getNumFound(); i++) {
-                Item item = itemService.find(context,
-                        UUID.fromString((String) documents.get(i).getFieldValue("item.id")));
-                if (item.getLastModified().before(last)) {
-                    items.add(item);
+                Object fieldValueItemId = documents.get(i).getFieldValue("item.id");
+                if (fieldValueItemId != null) {
+                    Item item = itemService.find(context,
+                            UUID.fromString((String) fieldValueItemId));
+                    if (item.getLastModified().before(last)) {
+                        items.add(item);
+                    }
                 }
             }
             return items.iterator();
@@ -690,7 +693,7 @@ public class XOAI {
      *
      * @param item
      *            to check
-     * @param bundleName bundel name e.g. ORIGINAL or ORE
+     * @param bundleName bundle name e.g. ORIGINAL or ORE
      * @return true if there is at least on bitstream in the bundle named
      *         e.g. ORIGINAL, otherwise false
      */
@@ -706,9 +709,21 @@ public class XOAI {
                 if ((bName != null) && bName.equals(bundleName))
                 {
                     List<Bitstream> bitstreams = curBundle.getBitstreams();
-                    if (bitstreams != null && bitstreams.size() > 0)
-                    {
-                        return true;
+                    boolean isPublicReadable = false;
+                    if (bitstreams != null) {
+                        for (Bitstream bitstream : bitstreams) {
+                            try {
+                                // if one bitstream in ORIGINAL-bundle is public-READ (no embargo on it) the item is
+                                // could be shown in oai
+                                if (authorizeService.authorizeActionBoolean(context, bitstream, Constants.READ)) {
+                                    isPublicReadable = true;
+                                    break;
+                                }
+                            } catch (SQLException ex) {
+                                log.error(ex.getMessage());
+                            }
+                        }
+                        return isPublicReadable;
                     }
                 }
             }
