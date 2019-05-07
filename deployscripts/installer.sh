@@ -90,7 +90,7 @@ if [ ! DSPACE_DIR ]; then
     echo "Could not locate dspace_dir in configuration"
     exit 1
 fi
-BIBSYS_SCRIPT_DIR=scripts
+BIBSYS_SCRIPT_DIR=deployscripts
 
 
 DATABASE_USER=`grep db.username ${DSPACE_CFG} | awk -F= '{print $2}' | sed 's/^[ \t]*//;s/[ \t]*$//'`

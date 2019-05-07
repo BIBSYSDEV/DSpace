@@ -22,21 +22,21 @@ pipeline {
 
     stages {
 
-//        stage('Confirm deploy') {
-//            steps {
-//                script {
-//                    try {
-//                        timeout(activity: true, time: 120, unit: 'SECONDS') {
-//                            input(message: "Deploy branch: $VERSION to server: $TARGET_HOST?")
-//                        }
-//                    } catch (err) {
-//                        println("Release aborted")
-//                        throw err
-//                    }
-//                }
-//                println("Deploying branch: $VERSION to server: $TARGET_HOST")
-//            }
-//        }
+        stage('Confirm deploy') {
+            steps {
+                script {
+                    try {
+                        timeout(activity: true, time: 120, unit: 'SECONDS') {
+                            input(message: "Deploy branch: $VERSION to server: $TARGET_HOST?")
+                        }
+                    } catch (err) {
+                        println("Release aborted")
+                        throw err
+                    }
+                }
+                println("Deploying branch: $VERSION to server: $TARGET_HOST")
+            }
+        }
 
         stage('Checkout Brage6-environment.git') {
             steps {
