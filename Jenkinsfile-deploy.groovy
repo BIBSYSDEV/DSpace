@@ -83,6 +83,9 @@ pipeline {
                 echo "copying local.cfg from environment-project in brage6"
                 sh "cp ${ENV_FOLDER}/env/local_UTVIKLE.cfg dspace/config/local.cfg"
 
+                echo "copying lfeide.properties from environment-project in brage6"
+                sh "cp ${ENV_FOLDER}/env/feide_UTVIKLE.properties dspace/config/feide.properties"
+
                 sh "echo jenkins.url = ${JENKINS_URL} >> dspace/config/local.cfg"
                 sh "echo jenkins.tag = ${BUILD_TAG} >> dspace/config/local.cfg"
                 sh "echo git.branch = ${GIT_BRANCH} >> dspace/config/local.cfg"
