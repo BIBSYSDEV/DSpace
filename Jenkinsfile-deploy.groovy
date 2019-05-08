@@ -22,22 +22,21 @@ pipeline {
 
     stages {
 
-
-//        stage('Confirm deploy') {
-//            steps {
-//                script {
-//                    try {
-//                        timeout(activity: true, time: 120, unit: 'SECONDS') {
-//                            input(message: "Deploy branch: $VERSION to server: $TARGET_HOST?")
-//                        }
-//                    } catch (err) {
-//                        println("Release aborted")
-//                        throw err
-//                    }
-//                }
-//                println("Deploying branch: $VERSION to server: $TARGET_HOST")
-//            }
-//        }
+        stage('Confirm deploy') {
+            steps {
+                script {
+                    try {
+                        timeout(activity: true, time: 120, unit: 'SECONDS') {
+                            input(message: "Deploy branch: $VERSION to server: $TARGET_HOST?")
+                        }
+                    } catch (err) {
+                        println("Release aborted")
+                        throw err
+                    }
+                }
+                println("Deploying branch: $VERSION to server: $TARGET_HOST")
+            }
+        }
 
         stage('Checkout Brage6-environment.git') {
             steps {
@@ -75,9 +74,8 @@ pipeline {
 
         stage('Pre-build scripts') {
             steps {
-                sh "less ${ENV_FOLDER}/env/env.properties"
                 echo "Fetching environmentvariables for build from : ${ENV_FOLDER}/env/env.properties"
-                load "brage6_environment/env/env.properties"
+                load "${ENV_FOLDER}/env/env.properties"
                 echo "TARGET_FOLDER: ${TARGET_FOLDER}"
                 echo "COMPRESSED_INSTALLER_FILE: ${COMPRESSED_INSTALLER_FILE}"
                 echo "INSTALLER_SCRIPT: ${INSTALLER_SCRIPT}"
@@ -105,9 +103,9 @@ pipeline {
                 echo "Transferring ${COMPRESSED_INSTALLER_FILE} to ${TARGET_HOST}:${TARGET_FOLDER}"
                 sh "scp ${COMPRESSED_INSTALLER_FILE} ${TARGET_HOST}:${TARGET_FOLDER}/"
 
-                echo "Transferring ${ENV_FOLDER}/scripts to ${TARGET_HOST}:${TARGET_FOLDER}"
-                sh "scp -r ${ENV_FOLDER}/scripts ${TARGET_HOST}:${TARGET_FOLDER}/"
-                sh "scp -r ${ENV_FOLDER}/scripts/${INSTALLER_SCRIPT} ${TARGET_HOST}:${TARGET_FOLDER}/"
+                echo "Transferring deployscripts to ${TARGET_HOST}:${TARGET_FOLDER}"
+                sh "scp -r deployscripts ${TARGET_HOST}:${TARGET_FOLDER}/"
+                sh "scp -r deployscripts/${INSTALLER_SCRIPT} ${TARGET_HOST}:${TARGET_FOLDER}/"
 
                 echo "Executing ${TARGET_FOLDER}/installer.sh on ${TARGET_HOST}"
                 sh "ssh ${TARGET_HOST} 'source ~/.profile; sh ${TARGET_FOLDER}/${INSTALLER_SCRIPT};'"
