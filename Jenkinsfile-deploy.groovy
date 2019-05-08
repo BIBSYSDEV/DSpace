@@ -103,9 +103,9 @@ pipeline {
                 echo "Transferring ${COMPRESSED_INSTALLER_FILE} to ${TARGET_HOST}:${TARGET_FOLDER}"
                 sh "scp ${COMPRESSED_INSTALLER_FILE} ${TARGET_HOST}:${TARGET_FOLDER}/"
 
-                echo "Transferring scripts to ${TARGET_HOST}:${TARGET_FOLDER}"
-                sh "scp -r scripts ${TARGET_HOST}:${TARGET_FOLDER}/"
-                sh "scp -r scripts/${INSTALLER_SCRIPT} ${TARGET_HOST}:${TARGET_FOLDER}/"
+                echo "Transferring deployscripts to ${TARGET_HOST}:${TARGET_FOLDER}"
+                sh "scp -r deployscripts ${TARGET_HOST}:${TARGET_FOLDER}/"
+                sh "scp -r deployscripts/${INSTALLER_SCRIPT} ${TARGET_HOST}:${TARGET_FOLDER}/"
 
                 echo "Executing ${TARGET_FOLDER}/installer.sh on ${TARGET_HOST}"
                 sh "ssh ${TARGET_HOST} 'source ~/.profile; sh ${TARGET_FOLDER}/${INSTALLER_SCRIPT};'"

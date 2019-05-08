@@ -29,7 +29,7 @@
 
 SCRIPT_DIR=`dirname $0`
 SCRIPT_NAME=`basename $0`
-
+BIBSYS_SCRIPT_DIR=deployscripts
 
 # Make sure base path is where we currently are
 cd ${SCRIPT_DIR}
@@ -90,7 +90,7 @@ if [ ! DSPACE_DIR ]; then
     echo "Could not locate dspace_dir in configuration"
     exit 1
 fi
-BIBSYS_SCRIPT_DIR=scripts
+
 
 
 DATABASE_USER=`grep db.username ${DSPACE_CFG} | awk -F= '{print $2}' | sed 's/^[ \t]*//;s/[ \t]*$//'`
