@@ -52,24 +52,24 @@ pipeline {
             }
         }
 
-        stage('Select Institution') {
-            steps {
-                script {
-                    env.WORKSPACE = pwd();
-                    def file = readFile "${ENV_FOLDER}/env/inst.txt"
-                    try {
-                        timeout(activity: true, time: 120, unit: 'SECONDS') {
-                            input(id: 'kundeInput', message: 'Choose institution', parameters: [
-                                    choice(choices: file,name: 'kunde')
-                            ])
-                        }
-                    } catch (err) {
-                        println("Release aborted")
-                        throw err
-                    }
-                }
-            }
-        }
+//        stage('Select Institution') {
+//            steps {
+//                script {
+//                    env.WORKSPACE = pwd();
+//                    def file = readFile "${ENV_FOLDER}/env/inst.txt"
+//                    try {
+//                        timeout(activity: true, time: 120, unit: 'SECONDS') {
+//                            input(id: 'kundeInput', message: 'Choose institution', parameters: [
+//                                    choice(choices: file,name: 'kunde')
+//                            ])
+//                        }
+//                    } catch (err) {
+//                        println("Release aborted")
+//                        throw err
+//                    }
+//                }
+//            }
+//        }
 
 
         stage('Pre-build scripts') {
@@ -82,6 +82,29 @@ pipeline {
 
                 echo "copying local.cfg from environment-project in brage6"
                 sh "cp ${ENV_FOLDER}/env/local_UTVIKLE.cfg dspace/config/local.cfg"
+
+
+                sh "echo jenkins.url = ${JENKINS_URL} >> dspace/config/local.cfg"
+                sh "echo jenkins.tag = ${BUILD_TAG} >> dspace/config/local.cfg"
+                sh "echo git.branch = ${GIT_BRANCH} >> dspace/config/local.cfg"
+                sh "echo git.commit = ${GIT_COMMIT} >> dspace/config/local.cfg"
+                sh "tail -n 10 dspace/config/local.cfg"
+            }
+        }
+
+        stage('Confirm build') {
+            steps {
+                script {
+                    try {
+                        timeout(activity: true, time: 120, unit: 'SECONDS') {
+                            input(message: "biff eller bernaise?")
+                        }
+                    } catch (err) {
+                        println("Release aborted")
+                        throw err
+                    }
+                }
+                println("Deploying branch: $VERSION to server: $TARGET_HOST")
             }
         }
 
