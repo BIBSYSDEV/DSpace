@@ -87,7 +87,6 @@ pipeline {
                 sh "echo jenkins.tag = ${BUILD_TAG} >> dspace/config/local.cfg"
                 sh "echo git.branch = ${GIT_BRANCH} >> dspace/config/local.cfg"
                 sh "echo git.commit = ${GIT_COMMIT} >> dspace/config/local.cfg"
-                sh "tail -n 10 dspace/config/local.cfg"
             }
         }
 
