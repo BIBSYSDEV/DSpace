@@ -103,7 +103,7 @@ public class FeideAuthenticateAction extends AbstractAction
 //                    if (StringUtils.isNotEmpty(topCommunityHandle)) {
 //                        redirectURL += "/handle/" + topCommunityHandle;
 //                    } else {
-                        redirectURL += "/community-list";
+//                        redirectURL += "/community-list";
 //                    }
                     log.info("redirecting to: " + redirectURL);
                 }
