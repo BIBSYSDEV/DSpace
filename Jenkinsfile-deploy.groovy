@@ -22,22 +22,21 @@ pipeline {
 
     stages {
 
-
-//        stage('Confirm deploy') {
-//            steps {
-//                script {
-//                    try {
-//                        timeout(activity: true, time: 120, unit: 'SECONDS') {
-//                            input(message: "Deploy branch: $VERSION to server: $TARGET_HOST?")
-//                        }
-//                    } catch (err) {
-//                        println("Release aborted")
-//                        throw err
-//                    }
-//                }
-//                println("Deploying branch: $VERSION to server: $TARGET_HOST")
-//            }
-//        }
+        stage('Confirm deploy') {
+            steps {
+                script {
+                    try {
+                        timeout(activity: true, time: 120, unit: 'SECONDS') {
+                            input(message: "Deploy branch: $VERSION to server: $TARGET_HOST?")
+                        }
+                    } catch (err) {
+                        println("Release aborted")
+                        throw err
+                    }
+                }
+                println("Deploying branch: $VERSION to server: $TARGET_HOST")
+            }
+        }
 
         stage('Checkout Brage6-environment.git') {
             steps {
@@ -53,37 +52,47 @@ pipeline {
             }
         }
 
-        stage('Select Institution') {
-            steps {
-                script {
-                    env.WORKSPACE = pwd();
-                    def file = readFile "${ENV_FOLDER}/env/inst.txt"
-                    try {
-                        timeout(activity: true, time: 120, unit: 'SECONDS') {
-                            input(id: 'kundeInput', message: 'Choose institution', parameters: [
-                                    choice(choices: file,name: 'kunde')
-                            ])
-                        }
-                    } catch (err) {
-                        println("Release aborted")
-                        throw err
-                    }
-                }
-            }
-        }
+//        stage('Select Institution') {
+//            steps {
+//                script {
+//                    env.WORKSPACE = pwd();
+//                    def file = readFile "${ENV_FOLDER}/env/inst.txt"
+//                    try {
+//                        timeout(activity: true, time: 120, unit: 'SECONDS') {
+//                            input(id: 'kundeInput', message: 'Choose institution', parameters: [
+//                                    choice(choices: file,name: 'kunde')
+//                            ])
+//                        }
+//                    } catch (err) {
+//                        println("Release aborted")
+//                        throw err
+//                    }
+//                }
+//            }
+//        }
 
 
         stage('Pre-build scripts') {
             steps {
-                sh "less ${ENV_FOLDER}/env/env.properties"
                 echo "Fetching environmentvariables for build from : ${ENV_FOLDER}/env/env.properties"
-                load "brage6_environment/env/env.properties"
+                load "${ENV_FOLDER}/env/env.properties"
                 echo "TARGET_FOLDER: ${TARGET_FOLDER}"
                 echo "COMPRESSED_INSTALLER_FILE: ${COMPRESSED_INSTALLER_FILE}"
                 echo "INSTALLER_SCRIPT: ${INSTALLER_SCRIPT}"
 
                 echo "copying local.cfg from environment-project in brage6"
                 sh "cp ${ENV_FOLDER}/env/local_UTVIKLE.cfg dspace/config/local.cfg"
+
+                echo "copying feide.properties from environment-project in brage6"
+                sh "cp ${ENV_FOLDER}/env/feide_UTVIKLE.properties dspace/config/feide.properties"
+
+                echo "copying handleserver.properties from environment-project in brage6"
+                sh "cp ${ENV_FOLDER}/env/handleserver_UTVIKLE.properties dspace/config/handleserver.properties"
+
+                sh "echo jenkins.url = ${JENKINS_URL} >> dspace/config/local.cfg"
+                sh "echo jenkins.tag = ${BUILD_TAG} >> dspace/config/local.cfg"
+                sh "echo git.branch = ${GIT_BRANCH} >> dspace/config/local.cfg"
+                sh "echo git.commit = ${GIT_COMMIT} >> dspace/config/local.cfg"
             }
         }
 
@@ -105,9 +114,9 @@ pipeline {
                 echo "Transferring ${COMPRESSED_INSTALLER_FILE} to ${TARGET_HOST}:${TARGET_FOLDER}"
                 sh "scp ${COMPRESSED_INSTALLER_FILE} ${TARGET_HOST}:${TARGET_FOLDER}/"
 
-                echo "Transferring ${ENV_FOLDER}/scripts to ${TARGET_HOST}:${TARGET_FOLDER}"
-                sh "scp -r ${ENV_FOLDER}/scripts ${TARGET_HOST}:${TARGET_FOLDER}/"
-                sh "scp -r ${ENV_FOLDER}/scripts/${INSTALLER_SCRIPT} ${TARGET_HOST}:${TARGET_FOLDER}/"
+                echo "Transferring deployscripts to ${TARGET_HOST}:${TARGET_FOLDER}"
+                sh "scp -r deployscripts ${TARGET_HOST}:${TARGET_FOLDER}/"
+                sh "scp -r deployscripts/${INSTALLER_SCRIPT} ${TARGET_HOST}:${TARGET_FOLDER}/"
 
                 echo "Executing ${TARGET_FOLDER}/installer.sh on ${TARGET_HOST}"
                 sh "ssh ${TARGET_HOST} 'source ~/.profile; sh ${TARGET_FOLDER}/${INSTALLER_SCRIPT};'"
