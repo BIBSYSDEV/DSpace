@@ -52,6 +52,9 @@ import java.util.List;
 public class FeideAuthentication implements AuthenticationMethod {
 
     private static final String BIBSYS_REALM = "@bibsys.no";
+    private static final String UNIT_REALM = "@unit.no";
+    private static final String BRAGE_BIBSYS_NO = "brage@bibsys.no";
+    private static final String BRAGE_UNIT_NO = "brage@unit.no";
     /**
      * log4j category
      */
@@ -88,29 +91,50 @@ public class FeideAuthentication implements AuthenticationMethod {
                                    HttpServletRequest request,
                                    String email)
             throws SQLException {
+
         HttpSession session = request.getSession();
         EduPerson eduPerson = Common.getEduPerson(session);
 
+//        String allowedOrgNr = ""; // f.eks "NO988983837". Skal hentes ut fra dspace.cfg - hvor det blir satt ved deploy av instans
+        String allowedOrgNr = "NO974767880"; // tester med NTNU som gyldig institusjon
+
+        boolean isUNITFeide = StringUtils.endsWith(eduPerson.getPrincipalName().trim(), UNIT_REALM);
         boolean isBIBSYSFeide = StringUtils.endsWith(eduPerson.getPrincipalName().trim(), BIBSYS_REALM);
 
-        boolean isMember = false;
-        List<String> affiliations;
+        if(isUNITFeide || isSystemAdmin(eduPerson)) {
 
-        if (isBIBSYSFeide) {
-            affiliations = eduPerson.getEduPersonScopedAffiliation();
+            return true;
+
         } else {
-            affiliations = eduPerson.getAffiliation();
-        }
-        if (affiliations != null) {
-            for (String affiliation : affiliations) {
-                if (StringUtils.startsWith(affiliation.toLowerCase(), "member")) {
-                    isMember = true;
-                    break;
+
+            boolean isAllowedOrgNr;
+            boolean isMember = false;
+
+            List<String> affiliations;
+
+            if (isBIBSYSFeide) {
+                affiliations = eduPerson.getEduPersonScopedAffiliation();
+                isAllowedOrgNr = eduPerson.getAttributesMap().get("noreduorgunituniqueidentifier").get(0).equalsIgnoreCase(allowedOrgNr);
+            } else {
+                affiliations = eduPerson.getAffiliation();
+                isAllowedOrgNr = eduPerson.getNorEduOrgNIN().equalsIgnoreCase(allowedOrgNr);
+            }
+
+            if (isAllowedOrgNr && affiliations != null) {
+                for (String affiliation : affiliations) {
+                    if (StringUtils.startsWith(affiliation.toLowerCase(), "member")) {
+                        isMember = true;
+                        break;
+                    }
                 }
             }
-        }
 
-        return isMember;
+            return isMember;
+        }
+    }
+
+    private boolean isSystemAdmin(EduPerson eduPerson) {
+        return BRAGE_BIBSYS_NO.equals(eduPerson.getPrincipalName()) || BRAGE_UNIT_NO.equals(eduPerson.getPrincipalName());
     }
 
     /**
