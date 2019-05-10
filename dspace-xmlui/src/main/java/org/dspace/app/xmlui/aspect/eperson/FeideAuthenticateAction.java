@@ -82,11 +82,12 @@ public class FeideAuthenticateAction extends AbstractAction
             Context context = AuthenticationUtil.authenticate(objectModel, email,password, realm);
 
             EPerson eperson = context.getCurrentUser();
-            log.info("found eperson: " + eperson.getEmail());
-
 
             if (eperson != null)
             {
+
+                log.info("found eperson with Netid: " + eperson.getNetid());
+
                 // The user has successfully logged in
                 String redirectURL = request.getContextPath();
 
