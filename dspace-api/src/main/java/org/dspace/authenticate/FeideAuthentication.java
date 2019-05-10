@@ -114,9 +114,13 @@ public class FeideAuthentication implements AuthenticationMethod {
 
             if (isBIBSYSFeide) {
                 affiliations = eduPerson.getEduPersonScopedAffiliation();
+
+                // BIBSYS hosted institution OrgNr is found in attribute edupersonorgunitdn:noreduorgunituniqueidentifier
                 isAllowedOrgNr = eduPerson.getAttributesMap().get("noreduorgunituniqueidentifier").get(0).equalsIgnoreCase(allowedOrgNr);
             } else {
                 affiliations = eduPerson.getAffiliation();
+
+                // "Normal" OrgNr found in attribute edupersonorgdn:noreduorgnin
                 isAllowedOrgNr = eduPerson.getNorEduOrgNIN().equalsIgnoreCase(allowedOrgNr);
             }
 
