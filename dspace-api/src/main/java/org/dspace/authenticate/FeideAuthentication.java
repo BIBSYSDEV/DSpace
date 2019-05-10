@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.dspace.authenticate.factory.AuthenticateServiceFactory;
 import org.dspace.authenticate.service.AuthenticationService;
 import org.dspace.authorize.AuthorizeException;
+import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Context;
 import org.dspace.core.LogManager;
 import org.dspace.eperson.EPerson;
@@ -27,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -95,8 +97,9 @@ public class FeideAuthentication implements AuthenticationMethod {
         HttpSession session = request.getSession();
         EduPerson eduPerson = Common.getEduPerson(session);
 
-//        String allowedOrgNr = ConfigurationManager.getProperty("institution.orgnr"); // f.eks "NO988983837". Skal hentes ut fra dspace.cfg - hvor det blir satt ved deploy av instans
-        String allowedOrgNr = "NO974767880"; // tester med NTNU som gyldig institusjon
+        String allowedOrgNrs = ConfigurationManager.getProperty("dspace.orgnr");
+
+        List<String> allowedOrgNrsList = Arrays.asList(allowedOrgNrs.split(","));
 
         boolean isUNITFeide = StringUtils.endsWith(eduPerson.getPrincipalName().trim(), UNIT_REALM);
         boolean isBIBSYSFeide = StringUtils.endsWith(eduPerson.getPrincipalName().trim(), BIBSYS_REALM);
@@ -120,13 +123,13 @@ public class FeideAuthentication implements AuthenticationMethod {
                 if (orgNrs == null || orgNrs.isEmpty()) {
                     isAllowedOrgNr = false;
                 } else {
-                    isAllowedOrgNr = eduPerson.getAttributesMap().get("noreduorgunituniqueidentifier").get(0).equalsIgnoreCase(allowedOrgNr);
+                    isAllowedOrgNr = allowedOrgNrsList.contains(orgNrs.get(0));
                 }
             } else {
                 affiliations = eduPerson.getAffiliation();
 
                 // "Normal" OrgNr found in attribute edupersonorgdn:noreduorgnin
-                isAllowedOrgNr = eduPerson.getNorEduOrgNIN().equalsIgnoreCase(allowedOrgNr);
+                isAllowedOrgNr = allowedOrgNrsList.contains(eduPerson.getNorEduOrgNIN());
             }
 
             if (isAllowedOrgNr && affiliations != null) {
