@@ -95,7 +95,7 @@ public class FeideAuthentication implements AuthenticationMethod {
         HttpSession session = request.getSession();
         EduPerson eduPerson = Common.getEduPerson(session);
 
-//        String allowedOrgNr = ""; // f.eks "NO988983837". Skal hentes ut fra dspace.cfg - hvor det blir satt ved deploy av instans
+//        String allowedOrgNr = ConfigurationManager.getProperty("institution.orgnr"); // f.eks "NO988983837". Skal hentes ut fra dspace.cfg - hvor det blir satt ved deploy av instans
         String allowedOrgNr = "NO974767880"; // tester med NTNU som gyldig institusjon
 
         boolean isUNITFeide = StringUtils.endsWith(eduPerson.getPrincipalName().trim(), UNIT_REALM);
