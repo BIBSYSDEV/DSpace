@@ -97,18 +97,9 @@ public class FeideAuthenticateAction extends AbstractAction
                     // that of the originally interrupted request.
                     redirectURL += AuthenticationUtil.resumeInterruptedRequest(objectModel);
                 }
-                else
-                {
-                    // Otherwise direct the user to the specified 'loginredirect' page (or homepage by default)
-//                    String loginRedirect = ConfigurationManager.getProperty("xmlui.user.loginredirect");
-//                    if (StringUtils.isNotEmpty(topCommunityHandle)) {
-//                        redirectURL += "/handle/" + topCommunityHandle;
-//                    } else {
-//                        redirectURL += "/community-list";
-//                    }
-                    log.info("redirecting to: " + redirectURL);
-                }
-
+                
+                log.info("redirecting to: " + redirectURL);
+                    
                 // Authentication successful send a redirect.
                 final HttpServletResponse httpResponse = (HttpServletResponse) objectModel.get(HttpEnvironment.HTTP_RESPONSE_OBJECT);
 
