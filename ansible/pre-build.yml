@@ -1,0 +1,21 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Bootstrap and sanity checks
+      import_tasks:
+        file: bootstrap.yml
+
+    - name: Create build.properties
+      template:
+        src: build.j2.properties
+        dest: "{{ jenkins_workspace }}/build.properties"
+      delegate_to: localhost
+
+    - name: Notify Slack
+      slack:
+        channel: "{{ SlackConfig.channel }}"
+        icon_emoji: "{{ SlackConfig.icon }}"
+        msg: "`[{{kunde}}]` Starter bygging: {{ kundedata[kunde]['arkivnavn'] | default('Brage') }}"
+        token: "{{ SlackConfig.token }}"
+        username: "{{ SlackConfig.sender }}"
+      delegate_to: localhost

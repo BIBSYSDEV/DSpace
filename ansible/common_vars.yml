@@ -1,4 +1,9 @@
-FeideEntityID: urn:mace:feide.no:services:no.unit.brage:{{ kunde }}-xmlui
+FeideEntityFase:
+  utvikle: no.bibsys.brage-utvikle
+  test: no.bibsys.brage-test
+  produksjon: no.unit.brage
+
+FeideEntityID: urn:mace:feide.no:services:{{ FeideEntityFase[fase] }}:{{ kunde }}-xmlui
 
 SlackConfig:
 #  channel: "#brage"

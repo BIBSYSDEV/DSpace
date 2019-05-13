@@ -57,9 +57,8 @@ pipeline {
 			steps {
 				println("PATH: ${env.PATH}")
 				ansiblePlaybook(
-					playbook: 'ansible/bootstrap.yml',
-//					installation: 'OSinstalledAnsible',
-					inventory: 'hosts',
+					playbook: 'ansible/pre-build.yml',
+					inventory: 'ansible/hosts',
 					extraVars: [
 							fase: 'utvikle',
 							jenkins_workspace: "${env.WORKSPACE}",

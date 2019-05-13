@@ -1,3 +1,8 @@
+- name: Sjekk at fase er angitt
+  fail:
+    msg: "Hvilken utviklingsfase? Angi som extra var, f.eks: -e fase=utvikle"
+  when: fase is not defined
+
 - name: Leser inn konfigurasjon
   include_vars:
     file: common_vars.yml
