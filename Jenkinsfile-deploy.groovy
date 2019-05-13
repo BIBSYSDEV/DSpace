@@ -13,6 +13,7 @@ pipeline {
 
     environment {
         VERSION = "${env.BRANCH_NAME}".replaceAll('/', '_').toLowerCase()
+		DEVSTEP = "utvikle"
         // TARGET_HOST = "${params.Destination}"
         TARGET_HOST = "brage-utvikle.bibsys.no"
         ENV_FOLDER = "brage6_environment"
@@ -21,7 +22,7 @@ pipeline {
 
 
     stages {
-
+/*
         stage('Confirm deploy') {
             steps {
                 script {
@@ -37,41 +38,56 @@ pipeline {
                 println("Deploying branch: $VERSION to server: $TARGET_HOST")
             }
         }
-
-        stage('Checkout Brage6-environment.git') {
+*/
+        stage('Checkout Brage6 customizations') {
             steps {
 
-                println("Running build #${env.BUILD_ID} of job ${env.JOB_NAME}, git branch: ${env.BRANCH_NAME}" as java.lang.Object)
+//                println("Running build #${env.BUILD_ID} of job ${env.JOB_NAME}, git branch: ${env.BRANCH_NAME}" as java.lang.Object)
                 script {
                     brageVars = checkout scm
                     dir("${ENV_FOLDER}") {
                         //configVars = checkout scm
-                        git url: 'git@github.com:BIBSYSDEV/Brage6-environment.git'
+                        git url: 'git@git.bibsys.no:team-rosa/brage6-customizations.git'
                     }
                 }
             }
         }
 
-//        stage('Select Institution') {
-//            steps {
-//                script {
-//                    env.WORKSPACE = pwd();
-//                    def file = readFile "${ENV_FOLDER}/env/inst.txt"
-//                    try {
-//                        timeout(activity: true, time: 120, unit: 'SECONDS') {
-//                            input(id: 'kundeInput', message: 'Choose institution', parameters: [
-//                                    choice(choices: file,name: 'kunde')
-//                            ])
-//                        }
-//                    } catch (err) {
-//                        println("Release aborted")
-//                        throw err
-//                    }
-//                }
-//            }
-//        }
+		stage('Bootstrap workspace') {
+			steps {
+				ansiblePlaybook(
+					playbook: 'bootstrap.yml',
+					inventory: 'hosts',
+					extraVars: [
+							fase: 'utvikle',
+							jenkins_workspace: $WORKSPACE,
+							kunde: 'unit'
+						]
+					)
+			}
+		}
+/*
+        stage('Select Institution') {
+            steps {
+                script {
+                    env.WORKSPACE = pwd();
+                    def file = readFile "${ENV_FOLDER}/env/inst.txt"
+                    try {
+                        timeout(activity: true, time: 120, unit: 'SECONDS') {
+                            input(id: 'kundeInput', message: 'Choose institution', parameters: [
+                                    choice(choices: file,name: 'kunde')
+                            ])
+                        }
+                    } catch (err) {
+                        println("Release aborted")
+                        throw err
+                    }
+                }
+            }
+        }
+*/
 
-
+/*
         stage('Pre-build scripts') {
             steps {
                 echo "Fetching environmentvariables for build from : ${ENV_FOLDER}/env/env.properties"
@@ -122,7 +138,7 @@ pipeline {
                 sh "ssh ${TARGET_HOST} 'source ~/.profile; sh ${TARGET_FOLDER}/${INSTALLER_SCRIPT} unit;'"
             }
         }
-
+*/
         stage('Cleanup') {
             steps {
                 cleanWs()
