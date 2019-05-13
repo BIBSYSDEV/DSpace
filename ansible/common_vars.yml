@@ -1,0 +1,8 @@
+FeideEntityID: urn:mace:feide.no:services:no.unit.brage:{{ kunde }}-xmlui
+
+SlackConfig:
+#  channel: "#brage"
+  channel: "#sandbox_playground"
+  icon: ":information_source:"
+  sender: "BrageDeployment"
+  token: "T4NMA0DMM/BB57LJ98Q/Rbx0uBqnO4a7la1Pe37S90Qp"

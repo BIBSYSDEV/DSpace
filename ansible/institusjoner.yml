@@ -1,0 +1,514 @@
+aho:
+  arkivnavn: ADORA
+  bibkode: tk
+  CristinInstitusjonsnummer: 189
+  epost: bibliotek@aho.no
+  navn: Arkitektur- og designhøgskolen i Oslo
+  orgnr: NO971526378
+  
+banenor:
+  arkivnavn: Jernbanebiblioteket
+  bibkode: tu
+  epost: viten@banenor.no
+  navn: Bane NOR - Jernbanebiblioteket
+  orgnr: NO917082308
+  
+bi:
+  arkivnavn: BI Open Archive
+  bibkode: tb
+  CristinInstitusjonsnummer: 158
+  epost: brage@bi.no
+  navn: Handelshøyskolen BI
+  orgnr: NO971228865
+  virtualhost: biopen.bi.no
+  
+cicero:
+  arkivnavn: CICERO Research Archive
+  bibkode: ig
+  CristinInstitusjonsnummer: 7475
+  epost: post@cicero.oslo.no
+  navn: CICERO Senter for klimaforskning
+  orgnr: NO971274190
+  virtualhost: pub.cicero.oslo.no
+  
+cmi:
+  arkivnavn: CMI Open Research Archive
+  bibkode: yv
+  CristinInstitusjonsnummer: 7416
+  epost: archive@cmi.no
+  navn: Chr. Michelsens Institutt
+  orgnr: NO948271788
+  virtualhost: open.cmi.no
+  
+dmmh:
+  arkivnavn: DMMH Brage
+  bibkode: uj
+  CristinInstitusjonsnummer: 253
+  epost: bibliotek@dmmh.no
+  navn: Dronning Mauds Minne Høgskole for barnehagelærerutdanning
+  orgnr: NO971574747
+  virtualhost: open.dmmh.no
+
+fdir:
+  arkivnavn: Fiskeridirektoratets digitalarkiv
+  bibkode: ih
+  epost: brage@imr.no
+  navn: Fiskeridirektoratet
+  orgnr: NO971203420
+
+fhi:
+  arkivnavn: Norwegian Institute of Public Health Open Repository
+  bibkode: td
+  CristinInstitusjonsnummer: 7502
+  epost: biblioteket@fhi.no
+  navn: Folkehelseinstituttet
+  orgnr: NO983744516
+
+fhs:
+  arkivnavn: FHS Brage
+  bibkode: xg
+  CristinInstitusjonsnummer: 1627
+  epost: bibl@fhs.mil.no
+  navn: Forsvarets høgskole
+  orgnr: NO972417823
+
+fni:
+  arkivnavn: FNI Open Archive
+  bibkode: jc
+  CristinInstitusjonsnummer: 7430
+  epost: post@fni.no
+  navn: Fridtjof Nansens Institutt
+  orgnr: NO944137238
+
+himolde:
+  arkivnavn: Brage HiM
+  bibkode: um
+  CristinInstitusjonsnummer: 211
+  epost: biblioteket@himolde.no
+  navn: Høgskolen i Molde
+  orgnr: NO971555483
+
+hiof:
+  arkivnavn: HiØ Brage
+  bibkode: uc
+  CristinInstitusjonsnummer: 224
+  epost: hanne.dybvik@hiof.no
+  navn: Høgskolen i Østfold
+  orgnr: NO971567376
+
+hvlopen:
+  arkivnavn: HVL Open
+  bibkode: xa
+  CristinInstitusjonsnummer: 203
+  epost: bibhaug@hsh.no
+  navn: Høgskulen på Vestlandet
+  orgnr: NO917641404
+
+hivolda:
+  arkivnavn: BraVo
+  bibkode: uv
+  CristinInstitusjonsnummer: 223
+  epost: bravo@hivolda.no
+  navn: Høgskulen i Volda
+  orgnr: NO974809672
+  virtualhost: bravo.hivolda.no
+  
+ife:
+  bibkode: yq
+  CristinInstitusjonsnummer: 7492
+  epost: bibl@ife.no
+  navn: Institutt for energiteknikk
+  orgnr: NO959432538
+
+imr:
+  arkivnavn: Brage IMR
+  bibkode: vf
+  CristinInstitusjonsnummer: 7431, 7527
+  epost: brage@imr.no
+  navn: Havforskningsinstituttet
+  orgnr: NO971349077
+
+inn:
+  arkivnavn: Brage INN
+  bibkode: up
+  CristinInstitusjonsnummer: 209
+  epost: brage@inn.no
+  navn: Høgskolen i Innlandet
+  orgnr: NO918108467
+  virtualhost: brage.inn.no
+
+khio:
+  arkivnavn: KHIODA
+  bibkode: xw
+  CristinInstitusjonsnummer: 260
+  epost: khioda@khio.no
+  navn: Kunsthøgskolen i Oslo
+  orgnr: NO977027233
+  virtualhost: khioda.khio.no
+
+kristiania:
+  bibkode: xm
+  CristinInstitusjonsnummer: 1615
+  epost: biblioteket@kristiania.no
+  navn: Høyskolen Kristiania
+  orgnr: NO954831604
+
+krus:
+  arkivnavn: CORA
+  bibkode: vq
+  CristinInstitusjonsnummer: 1661
+  epost: biblioteket@krus.no
+  navn: Kriminalomsorgens høgskole og utdanningssenter KRUS
+  orgnr: NO974714701
+
+ldh:
+  arkivnavn: LDH Brage
+  bibkode: tf
+  CristinInstitusjonsnummer: 230
+  epost: biblioteket@ldh.no
+  navn: Lovisenberg diakonale høgskole
+  orgnr: NO994881078
+
+mf:
+  arkivnavn: MF Brage
+  bibkode: vm
+  CristinInstitusjonsnummer: 190
+  epost: bibl-bestill@mf.no
+  navn: MF vitenskapelig høyskole for teologi, religion og samfunn
+  orgnr: NO917387079
+  virtualhost: mfopen.mf.no
+  
+nforsk:
+  bibkode: je
+  CristinInstitusjonsnummer: 7446
+  epost: nf@nforsk.no
+  navn: Nordlandsforskning
+  orgnr: NO989714309
+
+ngi:
+  arkivnavn: Norwegian Geotechnical Institute (NGI) Digital Archive
+  bibkode: it
+  CristinInstitusjonsnummer: 7452
+  epost: doksenter@ngi.no
+  navn: Norges Geotekniske Institutt
+  orgnr: NO958254318
+  
+ngu:
+  arkivnavn: NGU Open Archive
+  bibkode: jf
+  epost: biblioteket@ngu.no
+  navn: Norges geologiske undersøkelse
+  orgnr: NO970188290
+  virtualhost: openarchive.ngu.no
+  
+nhh:
+  arkivnavn: NHH Brage
+  bibkode: h
+  CristinInstitusjonsnummer: 191, 7572 
+  epost: bora@nhh.no
+  navn: Norges Handelshøyskole
+  orgnr: NO974789523
+  virtualhost: openaccess.nhh.no
+  
+nibio:
+  bibkode: vx
+  CristinInstitusjonsnummer: 7677
+  epost: bibliotek@nibio.no
+  navn: Norsk institutt for bioøkonomi
+  orgnr: NO988983837
+  
+nifu:
+  arkivnavn: NIFU Open Access Archive
+  bibkode: yu
+  CristinInstitusjonsnummer: 7463
+  epost: post@nifu.no
+  navn: Nordisk institutt for studier av innovasjon, forskning og utdanning
+  orgnr: NO976073169
+  
+nih:
+  arkivnavn: Brage NIH
+  bibkode: ta
+  CristinInstitusjonsnummer: 150
+  epost: brage@nih.no
+  navn: Norges idrettshøgskole
+  orgnr: NO971526033
+
+niku:
+  bibkode: ip
+  CristinInstitusjonsnummer: 7530
+  epost: post@niku.no
+  navn: Norsk institutt for kulturminneforskning
+  orgnr: NO985767769
+  
+nilu:
+  arkivnavn: NILU Brage
+  bibkode: wn
+  CristinInstitusjonsnummer: 7460
+  epost: bibl@nilu.no
+  navn: NILU - Norsk institutt for luftforskning
+  orgnr: NO941705561
+
+nina:
+  arkivnavn: NINA Brage
+  bibkode: vg
+  CristinInstitusjonsnummer: 7511
+  epost: biblioteket@nina.no
+  navn: Norsk institutt for naturforskning
+  orgnr: NO950037687
+  virtualhost: brage.nina.no
+  
+niva:
+  arkivnavn: NIVA Open Access Archive
+  bibkode: tg
+  CristinInstitusjonsnummer: 7464
+  epost: bibliotek@niva.no
+  navn: Norsk institutt for vannforskning
+  orgnr: NO855869942
+  
+nla:
+  arkivnavn: NLA Brage
+  bibkode: uz
+  CristinInstitusjonsnummer: 254
+  epost: nlabrage@nla.no
+  navn: NLA Høgskolen
+  orgnr: NO995189186
+
+nmbu:
+  arkivnavn: Brage NMBU
+  bibkode: tc
+  CristinInstitusjonsnummer: 192
+  epost: brage@nmbu.no
+  navn: Norges miljø- og biovitenskapelige universitet
+  orgnr: NO969159570
+  
+nmh:
+  arkivnavn: NMH Brage
+  bibkode: ia
+  CristinInstitusjonsnummer: 178
+  epost: brage@nmh.no
+  navn: Norges musikkhøgskole
+  orgnr: NO974761106
+  
+nofima:
+  arkivnavn: NOFIMA vitenarkiv
+  bibkode: vh
+  CristinInstitusjonsnummer: 7543
+  epost: brage@nofima.no
+  navn: Nofima
+  orgnr: NO989278835
+  
+nord:
+  arkivnavn: Brage Nord Open Research Archive
+  bibkode: ud
+  CristinInstitusjonsnummer: 204
+  epost: ubbodo@nord.no
+  navn: Nord universitet
+  orgnr: NO970940243
+  virtualhost: nordopen.nord.no
+  
+norges-bank:
+  bibkode: vp
+  epost: biblioteket@norges-bank.no
+  navn: Norges Bank
+  orgnr: NO937884117
+  
+norskfolkemuseum:
+  bibkode: wd
+  epost: post@norskfolkemuseum.no
+  navn: Norsk Folkemuseum
+  orgnr: NO970010815
+
+norut:
+  bibkode: jd
+  CristinInstitusjonsnummer: 6002, 6228
+  epost: post@norut.no
+  navn: Norut Northern Research Institute
+  orgnr: NO964479836
+
+npolar:
+  arkivnavn: Brage NP
+  bibkode: yy
+  epost: biblio@npolar.no
+  navn: Norsk Polarinstitutt
+  orgnr: NO971022264
+  virtualhost: brage.npolar.no
+
+ntnu:
+  arkivnavn: NTNU Open
+  bibkode: a
+  CristinInstitusjonsnummer: 194, 1920
+  epost: publishing@ub.ntnu.no
+  navn: Norges teknisk-naturvitenskapelige universitet
+  orgnr: NO974767880
+  virtualhost: ntnuopen.ntnu.no
+
+nupi:
+  arkivnavn: NUPI Research Online
+  bibkode: ik
+  CristinInstitusjonsnummer: 7471
+  epost: biblioteket@nupi.no
+  navn: Norsk Utenrikspolitisk Institutt
+  orgnr: NO970955992
+
+nve:
+  bibkode: jg
+  epost: biblioteket@nve.no
+  navn: Norges vassdrags- og energidirektorat
+  orgnr: NO970205039
+  
+omsorgsforskning:
+  arkivnavn: Omsorgsbiblioteket
+  bibkode: iv
+  epost: kommunikasjon@omsorgsforskning.no
+  navn: Senter for omsorgsforskning
+  orgnr: omsorgsforskning
+
+phs:
+  arkivnavn: PIA
+  bibkode: xq
+  CristinInstitusjonsnummer: 233
+  epost: pia@phs.no
+  navn: Politihøgskolen
+  orgnr: NO974761017
+  
+ra:
+  arkivnavn: Riksantikvarens vitenarkiv
+  bibkode: wa
+  epost: bibliotek@ra.no
+  navn: Riksantikvaren
+  orgnr: NO974760819
+
+r-bup:
+  bibkode: tj
+  CristinInstitusjonsnummer: 7539
+  epost: biblioteket@r-bup.no
+  navn: RBUP Øst og Sør
+  orgnr: NO980633004
+  
+ruralis:
+  bibkode: is
+  CristinInstitusjonsnummer: 7501
+  epost: post@bygdeforskning.no
+  navn: RURALIS - Institutt for rural- og regionalforskning
+  orgnr: NO982890535
+  
+samas:
+  bibkode: xu
+  CristinInstitusjonsnummer: 231
+  epost: girjerajus@samiskhs.no
+  navn: Sámi allaskuvla
+  orgnr: NO971519363
+  
+samforsk:
+  bibkode: ir
+  CristinInstitusjonsnummer: 7403
+  epost: kontakt@samfunn.ntnu.no
+  navn: NTNU Samfunnsforskning
+  orgnr: NO986243836
+  
+samfunnsforskning:
+  arkivnavn: Institute for Social Research - Open Arcive
+  bibkode: ij
+  CristinInstitusjonsnummer: 7437
+  epost: bibliotek@samfunnsforskning.no
+  navn: Institutt for samfunnsforskning
+  orgnr: NO974760991
+  
+sintef:
+  bibkode: wj
+  CristinInstitusjonsnummer: 7401, 7548, 7566, 7571
+  epost: OA-team@sintef.no
+  navn: SINTEF
+  orgnr: NO948007029
+
+ssb:
+  arkivnavn: Statistics Norway's Open Research Repository (SNORRe)
+  bibkode: vl
+  epost: snorre@ssb.no
+  navn: Statistisk sentralbyrå
+  orgnr: NO971526920
+
+stami:
+  bibkode: im
+  CristinInstitusjonsnummer: 7476
+  epost: bibliotek@stami.no
+  navn: Statens arbeidsmiljøinstitutt
+  orgnr: NO874761222
+  
+steinerhoyskolen:
+  bibkode: in
+  CristinInstitusjonsnummer: 1525
+  epost: adm@steinerhoyskolen.no
+  navn: Steinerhøyskolen
+  orgnr: NO971513470
+  virtualhost: viten-steinerhoyskolen.no
+  
+sihf:
+  arkivnavn: SIHF Open Archive
+  bibkode: iw
+  CristinInstitusjonsnummer: 1991
+  epost: bibliotek@sykehuset-innlandet.no
+  navn: Sykehuset Innlandet HF
+  orgnr: NO983971709
+  
+toi:
+  bibkode: jb
+  CristinInstitusjonsnummer: 7482
+  epost: post@toi.no
+  navn: Transportøkonomisk institutt
+  orgnr: NO959056773
+  
+uia:
+  arkivnavn: AURA
+  bibkode: uk
+  CristinInstitusjonsnummer: 201
+  epost: aura@uia.no
+  navn: Universitetet i Agder
+  orgnr: NO970546200
+  
+uis:
+  arkivnavn: UiS Brage
+  bibkode: ur
+  CristinInstitusjonsnummer: 217
+  epost: ub-brage@uis.no
+  navn: Universitetet i Stavanger
+  orgnr: NO971564679
+
+unit:
+  arkivnavn: Urdarbrønnen
+  bibkode: la
+  epost: support@unit.no
+  navn: Unit
+  orgnr: NO919477822
+  
+usn:
+  arkivnavn: USN Open Archive
+  bibkode: ub
+  CristinInstitusjonsnummer: 222
+  epost: vitenarkiv@usn.no
+  navn: Universitetet i Sørøst-Norge
+  orgnr: NO911770709
+  virtualhost: openarchive.usn.no
+  
+vegvesen:
+  arkivnavn: Brage- Statens vegvesen
+  bibkode: ty
+  epost: biblvd@vegvesen.no
+  navn: Statens vegvesen
+  orgnr: NO971032081
+  
+vid:
+  arkivnavn: VID:Open
+  bibkode: vd
+  CristinInstitusjonsnummer: 251
+  epost: vidopen@vid.no
+  navn: VID vitenskapelige høgskole
+  orgnr: NO915635520
+  
+kurs:
+  arkivnavn: Kurs
+  bibkode: ix
+  epost: support@bibsys.no
+  navn: Kurs
+  orgnr: kurs
+  
