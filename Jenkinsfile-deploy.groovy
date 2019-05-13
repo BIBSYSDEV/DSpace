@@ -58,6 +58,7 @@ pipeline {
 				println("PATH: ${env.PATH}")
 				ansiblePlaybook(
 					playbook: 'bootstrap.yml',
+					installation: 'OSinstalledAnsible',
 					inventory: 'hosts',
 					extraVars: [
 							fase: 'utvikle',
