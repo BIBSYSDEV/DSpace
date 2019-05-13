@@ -60,7 +60,7 @@ pipeline {
 					inventory: 'hosts',
 					extraVars: [
 							fase: 'utvikle',
-							jenkins_workspace: $WORKSPACE,
+							jenkins_workspace: ${env.WORKSPACE},
 							kunde: 'unit'
 						]
 					)
