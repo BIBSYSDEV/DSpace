@@ -55,6 +55,7 @@ pipeline {
 
 		stage('Bootstrap workspace') {
 			steps {
+				println("PATH: ${env.PATH}")
 				ansiblePlaybook(
 					playbook: 'bootstrap.yml',
 					inventory: 'hosts',
