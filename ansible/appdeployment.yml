@@ -97,7 +97,7 @@
     dest: /brage/{{ kunde }}/app/config/feide.properties
     content: |
       SP_ENTITY_ID={{ FeideEntityID }}
-      IDP_BASEPATH=https://{{ FeideEntityFase[fase]["IDP"] }}
+      IDP_BASEPATH=https://{{ FeideConfig[fase]["IDP"] }}
 
 - name: Deploy handle server properties
   template:
