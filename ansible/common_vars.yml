@@ -14,7 +14,7 @@ FeideConfig:
     EntityHost: no.unit.brage
     IDP: idp.feide.no
 
-FeideEntityID: urn:mace:feide.no:services:{{ FeideEntityFase[fase]["EntityHost"] }}:{{ kunde }}-xmlui
+FeideEntityID: urn:mace:feide.no:services:{{ FeideConfig[fase]["EntityHost"] }}:{{ kunde }}-xmlui
 
 HandleServerConfig:
   utvikle:
