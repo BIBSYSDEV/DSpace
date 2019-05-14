@@ -1,14 +1,14 @@
-- hosts: localhost
+- hosts: all
   gather_facts: false
   tasks:
     - name: Bootstrap and sanity checks
       import_tasks:
         file: bootstrap.yml
 
-    - name: Create build.properties
+    - name: Create local.cfg
       template:
-        src: build.j2.properties
-        dest: "{{ jenkins_workspace }}/build.properties"
+        src: local.cfg.j2
+        dest: "{{ jenkins_workspace }}/dspace/config/local.cfg"
       delegate_to: localhost
 
     - name: Notify Slack
@@ -19,3 +19,4 @@
         token: "{{ SlackConfig.token }}"
         username: "{{ SlackConfig.sender }}"
       delegate_to: localhost
+      when: fase is "produksjon"

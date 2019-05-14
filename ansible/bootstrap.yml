@@ -28,4 +28,5 @@
   when: jenkins_workspace is not defined
 
 - name: Definer *.brage.unit.no virtualhost
-  set_fact: bragevirtualhost={{kunde}}.brage.unit.no
+  set_fact:
+    bragevirtualhost: "{{ (fase == 'produksjon') | ternary(kunde ~ '.brage.unit.no', 'brage-' ~ fase ~ '.bibsys.no') }}"

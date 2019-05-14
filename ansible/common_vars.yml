@@ -1,9 +1,31 @@
-FeideEntityFase:
-  utvikle: no.bibsys.brage-utvikle
-  test: no.bibsys.brage-test
-  produksjon: no.unit.brage
+DatabaseHost:
+  utvikle: localhost
+  test: localhost
+  produksjon: bragedb.bibsys.no
 
-FeideEntityID: urn:mace:feide.no:services:{{ FeideEntityFase[fase] }}:{{ kunde }}-xmlui
+FeideConfig:
+  utvikle:
+    EntityHost: no.bibsys.brage-utvikle
+    IDP: idp-test.feide.no
+  test:
+    EntityHost: no.bibsys.brage-test
+    IDP: idp-test.feide.no
+  produksjon:
+    EntityHost: no.unit.brage
+    IDP: idp.feide.no
+
+FeideEntityID: urn:mace:feide.no:services:{{ FeideEntityFase[fase]["EntityHost"] }}:{{ kunde }}-xmlui
+
+HandleServerConfig:
+  utvikle:
+    hostname: utv-handle.bibsys.no
+    prefix: 11250.1
+  test:
+    hostname: utv-handle.bibsys.no
+    prefix: 11250.1
+  produksjon:
+    hostname: handle.bibsys.no
+    prefix: 11250.1
 
 SlackConfig:
 #  channel: "#brage"

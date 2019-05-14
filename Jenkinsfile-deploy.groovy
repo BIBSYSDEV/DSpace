@@ -55,16 +55,17 @@ pipeline {
 
 		stage('Bootstrap workspace') {
 			steps {
-				println("PATH: ${env.PATH}")
-				ansiblePlaybook(
-					playbook: 'ansible/pre-build.yml',
-					inventory: 'ansible/hosts',
+				dir("${env.WORKSPACE}/ansible") {
+					ansiblePlaybook(
+					playbook: 'pre-build.yml',
+					inventory: 'localhost,',
 					extraVars: [
 							fase: 'utvikle',
 							jenkins_workspace: "${env.WORKSPACE}",
 							kunde: 'unit'
 						]
 					)
+				}
 			}
 		}
 /*
@@ -112,7 +113,7 @@ pipeline {
                 sh "echo git.commit = ${GIT_COMMIT} >> dspace/config/local.cfg"
             }
         }
-
+*/
         stage('Maven Build') {
             steps {
                 echo "Building with maven"
@@ -120,6 +121,23 @@ pipeline {
             }
         }
 
+		stage('Deploy Brage') {
+			steps {
+				dir("${env.WORKSPACE}/ansible") {
+					ansiblePlaybook(
+					playbook: 'deploy-brage.yml',
+					inventory: 'hosts',
+					extraVars: [
+							fase: 'utvikle',
+							jenkins_workspace: "${env.WORKSPACE}",
+							kunde: 'unit'
+						]
+					)
+				}
+			}
+		}
+
+/*
         stage('Copy files to brage-server, running installer-script') {
             steps {
                 echo "Destination environment: ${TARGET_HOST}"
