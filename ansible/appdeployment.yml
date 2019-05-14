@@ -7,6 +7,17 @@
     username: "{{ SlackConfig.sender }}"
   when: fase == "produksjon"
 
+- name: Create target paths
+  file:
+    mode: "755"
+    path: "{{item}}"
+    state: directory
+  with_items:
+    - /brage/{{ kunde }}
+    - /brage/{{ kunde }}/app
+    - /brage/{{ kunde }}/data
+    - /brage/{{ kunde }}/install
+
 - name: Deploy DSpace Installer
   synchronize:
     delete: yes
