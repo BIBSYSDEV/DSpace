@@ -15,7 +15,7 @@
 
     - name: ApplicationDeployment
       import_tasks: appdeployment.yml
-      when: (fase == "produksjon") or (kunde in kunder)
+      when: (fase != "produksjon") or (kunde in kunder)
 
 - hosts: webservers
   gather_facts: false
@@ -31,7 +31,7 @@
       set_fact:
         appserver: "{{ hostvars[item]['appserver'] }}"
       delegate_to: "{{ item }}"
-      with_items: "{{ groups['appservers'] }}"
+      with_items: "{{ groups['appservers-' ~ fase] }}"
       when: hostvars[item]["appserver"] is defined
 
     - fail:
