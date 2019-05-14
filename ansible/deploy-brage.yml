@@ -15,7 +15,7 @@
 
     - name: ApplicationDeployment
       import_tasks: appdeployment.yml
-      when: (fase is "produksjon") or (kunde in kunder)
+      when: (fase == "produksjon") or (kunde in kunder)
 
 - hosts: webservers
   gather_facts: false
@@ -38,8 +38,8 @@
         msg: No appserver
       when:
         - appserver is not defined
-        - fase is "produksjon"
+        - fase == "produksjon"
 
     - name: WebserverConfigDeployment
       import_tasks: webdeployment.yml
-      when: fase is "produksjon"
+      when: fase == "produksjon"
