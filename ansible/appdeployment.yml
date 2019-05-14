@@ -5,7 +5,7 @@
     msg: "`[{{kunde}}]` Bygging ferdig. Starter deployment."
     token: "{{ SlackConfig.token }}"
     username: "{{ SlackConfig.sender }}"
-  when: fase is "produksjon"
+  when: fase == "produksjon"
 
 - name: Deploy DSpace Installer
   synchronize:
@@ -45,7 +45,7 @@
     msg: "`[{{kunde}}]` Deployment ferdig. Starter installasjon."
     token: "{{ SlackConfig.token }}"
     username: "{{ SlackConfig.sender }}"
-  when: fase is "produksjon"
+  when: fase == "produksjon"
 
 - name: Install application
   shell: "ant -buildfile /brage/{{ kunde }}/install/dspace-installer/build.xml fresh_install"
@@ -100,4 +100,4 @@
     msg: "`[{{kunde}}]` Installasjon utført. Konfigurerer webserver."
     token: "{{ SlackConfig.token }}"
     username: "{{ SlackConfig.sender }}"
-  when: fase is "produksjon"
+  when: fase == "produksjon"
