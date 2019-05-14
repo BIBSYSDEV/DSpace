@@ -16,8 +16,7 @@ pipeline {
 		DEVSTEP = "utvikle"
         // TARGET_HOST = "${params.Destination}"
         TARGET_HOST = "brage-utvikle.bibsys.no"
-        ENV_FOLDER = "brage6_environment"
-        //The rest of the parameters is imported from env.properties"
+        CUSTOMZ = "customizations"
     }
 
 
@@ -45,7 +44,7 @@ pipeline {
 //                println("Running build #${env.BUILD_ID} of job ${env.JOB_NAME}, git branch: ${env.BRANCH_NAME}" as java.lang.Object)
                 script {
                     brageVars = checkout scm
-                    dir("${ENV_FOLDER}") {
+                    dir("${CUSTOMZ}") {
                         //configVars = checkout scm
                         git url: 'git@git.bibsys.no:team-rosa/brage6-customizations.git'
                     }
