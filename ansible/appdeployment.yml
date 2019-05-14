@@ -17,6 +17,7 @@
     - /brage/{{ kunde }}/app
     - /brage/{{ kunde }}/data
     - /brage/{{ kunde }}/install
+    - /brage/{{ kunde }}/tmp
 
 - name: Deploy DSpace Installer
   synchronize:
@@ -24,20 +25,20 @@
     dest: /brage/{{ kunde }}/install/dspace-installer/
     src: "{{ jenkins_workspace }}/dspace/target/dspace-installer/"
 
-- name: Customize theme for customer
-  shell: "sed 's#../images/logo.png#../../{{kundedata[kunde]['bibkode']}}/images/logo.png#g' < /brage/{{ kunde }}/install/dspace-installer/webapps/xmlui/WEB-INF/classes/bibsys-themes/{{ kundedata[kunde]['bibkode'] }}/style.css >> /brage/{{ kunde }}/install/dspace-installer/webapps/xmlui/themes/brage/styles/main.css"
+#- name: Customize theme for customer
+#  shell: "sed 's#../images/logo.png#../../{{kundedata[kunde]['bibkode']}}/images/logo.png#g' < /brage/{{ kunde }}/install/dspace-installer/webapps/xmlui/WEB-INF/classes/bibsys-themes/{{ kundedata[kunde]['bibkode'] }}/style.css >> /brage/{{ kunde }}/install/dspace-installer/webapps/xmlui/themes/brage/styles/main.css"
 
-- name: Check custom favicon
-  stat:
-    path: /brage/{{ kunde }}/install/dspace-installer/webapps/xmlui/WEB-INF/classes/bibsys-themes/{{ kundedata[kunde]["bibkode"] }}/overlay/images/favicon.ico
-  register: favicon
+#- name: Check custom favicon
+#  stat:
+#    path: /brage/{{ kunde }}/install/dspace-installer/webapps/xmlui/WEB-INF/classes/bibsys-themes/{{ kundedata[kunde]["bibkode"] }}/overlay/images/favicon.ico
+#  register: favicon
 
-- name: Custom favicon for customer
-  copy:
-    src: /brage/{{ kunde }}/install/dspace-installer/webapps/xmlui/WEB-INF/classes/bibsys-themes/{{ kundedata[kunde]["bibkode"] }}/overlay/images/favicon.ico
-    dest: /brage/{{ kunde }}/install/dspace-installer/webapps/xmlui/themes/brage/images/favicon.ico
-    remote_src: true
-  when: favicon.stat.exists
+#- name: Custom favicon for customer
+#  copy:
+#    src: /brage/{{ kunde }}/install/dspace-installer/webapps/xmlui/WEB-INF/classes/bibsys-themes/{{ kundedata[kunde]["bibkode"] }}/overlay/images/favicon.ico
+#    dest: /brage/{{ kunde }}/install/dspace-installer/webapps/xmlui/themes/brage/images/favicon.ico
+#    remote_src: true
+#  when: favicon.stat.exists
 
 - name: Make sure brage-{{ kunde }} database is present
   postgresql_db:
@@ -48,6 +49,7 @@
     login_password: dspace
     name: brage-{{ kunde }}
     template: template0
+  when: fase == "produksjon"
     
 - name: Notify Slack
   slack:
@@ -74,20 +76,18 @@
   shell: "curl -s -n 'http://localhost:9080/manager/text/undeploy?path=/{{kunde}}-solr'"
 
 - name: Deploy SOLR
-  copy:
-    dest: /srv/tomcat-solr/webapps/{{ kunde }}-solr
-    directory_mode: "755"
-    mode: "644"
-    remote_src: yes
-    src: /brage/{{ kunde }}/app/webapps/solr
+  synchronize:
+    delete: yes
+    dest: /srv/tomcat-solr/webapps/{{ kunde }}-solr/
+    src: /brage/{{ kunde }}/app/webapps/solr/
+  delegate_to: "{{inventory_hostname}}"
   
 - name: Deploy OAI and XMLUI
-  copy:
-    dest: /srv/tomcat-xmlui-oai/webapps/{{ kunde }}-{{item}}
-    directory_mode: "755"
-    mode: "644"
-    remote_src: yes
-    src: /brage/{{ kunde }}/app/webapps/{{item}}
+  synchronize:
+    delete: yes
+    dest: /srv/tomcat-xmlui-oai/webapps/{{ kunde }}-{{item}}/
+    src: /brage/{{ kunde }}/app/webapps/{{item}}/
+  delegate_to: "{{inventory_hostname}}"
   with_items:
     - oai
     - xmlui
