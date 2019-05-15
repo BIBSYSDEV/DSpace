@@ -7,6 +7,8 @@ pipeline {
 
     environment {
         VERSION = "${env.BRANCH_NAME}".replaceAll('/', '_').toLowerCase()
+		DEVSTEP = ""
+		KUNDE = ""
         CUSTOMZ = "customizations"
     }
 
@@ -27,14 +29,17 @@ pipeline {
 	                try {
 	                    timeout(activity: true, time: 120, unit: 'SECONDS') {
 	                        input(id: 'phaseInput', message: 'Velg parametre', parameters: [
-	                                choice(choices: ["utvikle", "test", "produksjon"], name: 'DEVSTEP', description: 'Utviklingsfase:'),
-									choice(choices: kunder, name: 'KUNDE', description: "Kunde:")
+	                                choice(choices: ["utvikle", "test", "produksjon"], name: 'devstep', description: 'Utviklingsfase:'),
+									choice(choices: kunder, name: 'kunde', description: "Kunde:")
 	                        ])
 	                    }
 	                } catch (err) {
 	                    echo "Release aborted"
 	                    throw err
 	                }
+					
+					DEVSTEP = devstep
+					KUNDE = kunde
 				}
             }
         }
@@ -46,9 +51,9 @@ pipeline {
 					playbook: 'pre-build.yml',
 					inventory: 'localhost,',
 					extraVars: [
-							fase: params.DEVSTEP,
+							fase: DEVSTEP,
 							jenkins_workspace: "${env.WORKSPACE}",
-							kunde: params.KUNDE
+							kunde: KUNDE
 						]
 					)
 				}
@@ -60,14 +65,14 @@ pipeline {
                 script {
                     try {
                         timeout(activity: true, time: 120, unit: 'SECONDS') {
-                            input(message: "Deploy branch $VERSION for ${params.KUNDE} to phase ${params.DEVSTEP}?")
+                            input(message: "Deploy branch $VERSION for ${KUNDE} to phase ${DEVSTEP}?")
                         }
                     } catch (err) {
                         println("Release aborted")
                         throw err
                     }
                 }
-                println("Deploying branch $VERSION for ${params.KUNDE} to ${params.DEVSTEP}")
+                println("Deploying branch $VERSION for ${KUNDE} to ${DEVSTEP}")
             }
         }
 
@@ -97,9 +102,9 @@ pipeline {
 					playbook: 'deploy-brage.yml',
 					inventory: 'hosts',
 					extraVars: [
-							fase: params.DEVSTEP,
+							fase: DEVSTEP,
 							jenkins_workspace: "${env.WORKSPACE}",
-							kunde: params.KUNDE
+							kunde: KUNDE
 						]
 					)
 				}
