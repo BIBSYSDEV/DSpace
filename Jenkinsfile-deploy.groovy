@@ -22,7 +22,6 @@ pipeline {
 					def kunder = []
 
 					institusjoner.each { prop, val ->
-						if (prop in ["metaClass","class"]) return
 						kunder << prop
 					}
 
