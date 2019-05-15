@@ -21,24 +21,62 @@ pipeline {
 
 
     stages {
-/*
+
+        stage('Select development phase') {
+            steps {
+				def institusjoner = readYaml file: "${env.WORKSPACE}/ansible/institusjoner.yml"
+				def kunder = []
+				institusjoner.properties.each {
+					prop, val ->
+						kunder << prop
+				}
+                try {
+                    timeout(activity: true, time: 120, unit: 'SECONDS') {
+                        input(id: 'phaseInput', message: 'Velg utviklingsfase', parameters: [
+                                choice(choices: ["utvikle", "test", "produksjon"], name: 'DEVSTEP'),
+								choice(choices: kunder, name: 'KUNDE')
+                        ])
+                    }
+                } catch (err) {
+                    println("Release aborted")
+                    throw err
+                }
+            }
+        }
+
+		stage('Bootstrap workspace') {
+			steps {
+				dir("${env.WORKSPACE}/ansible") {
+					ansiblePlaybook(
+					playbook: 'pre-build.yml',
+					inventory: 'localhost,',
+					extraVars: [
+							fase: $DEVSTEP,
+							jenkins_workspace: "${env.WORKSPACE}",
+							kunde: $KUNDE
+						]
+					)
+				}
+			}
+		}
+
         stage('Confirm deploy') {
             steps {
                 script {
                     try {
                         timeout(activity: true, time: 120, unit: 'SECONDS') {
-                            input(message: "Deploy branch: $VERSION to server: $TARGET_HOST?")
+                            input(message: "Deploy branch: $VERSION to phase: $DEVSTEP?")
                         }
                     } catch (err) {
                         println("Release aborted")
                         throw err
                     }
                 }
-                println("Deploying branch: $VERSION to server: $TARGET_HOST")
+                println("Deploying branch $VERSION to server: $TARGET_HOST")
             }
         }
-*/
-        stage('Checkout Brage6 customizations') {
+
+		stage('Checkout Brage6 customizations') {
             steps {
 
 //                println("Running build #${env.BUILD_ID} of job ${env.JOB_NAME}, git branch: ${env.BRANCH_NAME}" as java.lang.Object)
@@ -52,21 +90,6 @@ pipeline {
             }
         }
 
-		stage('Bootstrap workspace') {
-			steps {
-				dir("${env.WORKSPACE}/ansible") {
-					ansiblePlaybook(
-					playbook: 'pre-build.yml',
-					inventory: 'localhost,',
-					extraVars: [
-							fase: 'utvikle',
-							jenkins_workspace: "${env.WORKSPACE}",
-							kunde: 'unit'
-						]
-					)
-				}
-			}
-		}
 /*
         stage('Select Institution') {
             steps {
