@@ -37,9 +37,6 @@ pipeline {
 	                    echo "Release aborted"
 	                    throw err
 	                }
-					
-					env.DEVSTEP = inputResult["devstep"]
-					env.KUNDE = inputResult["kunde"]
 				}
             }
         }
@@ -65,14 +62,14 @@ pipeline {
                 script {
                     try {
                         timeout(activity: true, time: 120, unit: 'SECONDS') {
-                            input(message: "Deploy branch $VERSION for ${env.KUNDE} to phase ${env.DEVSTEP}?")
+                            input(message: "Deploy branch $VERSION for ${inputResult.kunde} to phase ${inputResult.devstep}?")
                         }
                     } catch (err) {
                         println("Release aborted")
                         throw err
                     }
                 }
-                println("Deploying branch $VERSION for ${KUNDE} to ${DEVSTEP}")
+                println("Deploying branch $VERSION for ${inputResult.kunde} to ${inputResult.devstep}")
             }
         }
 
@@ -102,9 +99,9 @@ pipeline {
 					playbook: 'deploy-brage.yml',
 					inventory: 'hosts',
 					extraVars: [
-							fase: env.DEVSTEP,
+							fase: inputResult.devstep,
 							jenkins_workspace: env.WORKSPACE,
-							kunde: env.KUNDE
+							kunde: inputResult.kunde
 						]
 					)
 				}
