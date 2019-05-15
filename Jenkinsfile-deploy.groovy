@@ -67,7 +67,7 @@ pipeline {
                         throw err
                     }
                 }
-                println("Deploying branch $VERSION for ${params.KUNDE} to ${params.DEVSTEP})
+                println("Deploying branch $VERSION for ${params.KUNDE} to ${params.DEVSTEP}")
             }
         }
 
