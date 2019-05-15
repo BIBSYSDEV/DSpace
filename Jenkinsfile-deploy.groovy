@@ -39,9 +39,8 @@ pipeline {
 	                    throw err
 	                }
 					
-					println(inputResult.getClass())
-					env.DEVSTEP = inputResult[devstep]
-					env.KUNDE = inputResult[kunde]
+					env.DEVSTEP = inputResult["devstep"]
+					env.KUNDE = inputResult["kunde"]
 				}
             }
         }
