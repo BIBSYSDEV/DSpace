@@ -47,9 +47,9 @@ pipeline {
 					playbook: 'pre-build.yml',
 					inventory: 'localhost,',
 					extraVars: [
-							fase: $DEVSTEP,
+							fase: DEVSTEP,
 							jenkins_workspace: "${env.WORKSPACE}",
-							kunde: $KUNDE
+							kunde: KUNDE
 						]
 					)
 				}
