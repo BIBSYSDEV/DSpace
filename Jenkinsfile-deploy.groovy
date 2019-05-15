@@ -33,9 +33,9 @@ pipeline {
 					}
 	                try {
 	                    timeout(activity: true, time: 120, unit: 'SECONDS') {
-	                        input(id: 'phaseInput', message: 'Velg utviklingsfase', parameters: [
-	                                choice(choices: ["utvikle", "test", "produksjon"], name: 'DEVSTEP'),
-									choice(choices: kunder, name: 'KUNDE')
+	                        input(id: 'phaseInput', message: 'Velg parametre', parameters: [
+	                                choice(choices: ["utvikle", "test", "produksjon"], name: 'DEVSTEP', description: 'Utviklingsfase:'),
+									choice(choices: $kunder, name: 'KUNDE', description: "Kunde:")
 	                        ])
 	                    }
 	                } catch (err) {
