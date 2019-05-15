@@ -24,23 +24,25 @@ pipeline {
 
         stage('Select development phase') {
             steps {
-				def institusjoner = readYaml file: "${env.WORKSPACE}/ansible/institusjoner.yml"
-				def kunder = []
-				institusjoner.properties.each {
-					prop, val ->
-						kunder << prop
+				script {
+					def institusjoner = readYaml file: "${env.WORKSPACE}/ansible/institusjoner.yml"
+					def kunder = []
+					institusjoner.properties.each {
+						prop, val ->
+							kunder << prop
+					}
+	                try {
+	                    timeout(activity: true, time: 120, unit: 'SECONDS') {
+	                        input(id: 'phaseInput', message: 'Velg utviklingsfase', parameters: [
+	                                choice(choices: ["utvikle", "test", "produksjon"], name: 'DEVSTEP'),
+									choice(choices: kunder, name: 'KUNDE')
+	                        ])
+	                    }
+	                } catch (err) {
+	                    println("Release aborted")
+	                    throw err
+	                }
 				}
-                try {
-                    timeout(activity: true, time: 120, unit: 'SECONDS') {
-                        input(id: 'phaseInput', message: 'Velg utviklingsfase', parameters: [
-                                choice(choices: ["utvikle", "test", "produksjon"], name: 'DEVSTEP'),
-								choice(choices: kunder, name: 'KUNDE')
-                        ])
-                    }
-                } catch (err) {
-                    println("Release aborted")
-                    throw err
-                }
             }
         }
 
