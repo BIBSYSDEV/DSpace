@@ -219,6 +219,7 @@ echo "Removing ${CATALINA_BASE_XMLUI_OAI}/webapps/oai"
 rm -rf ${CATALINA_BASE_XMLUI_OAI}/webapps/oai
 echo "Removing ${CATALINA_BASE_XMLUI_OAI}/webapps/xmlui"
 rm -rf ${CATALINA_BASE_XMLUI_OAI}/webapps/xmlui
+
 echo "Removing ${CATALINA_BASE_XMLUI_OAI}/webapps/rest"
 rm -rf ${CATALINA_BASE_XMLUI_OAI}/webapps/rest
 
@@ -256,6 +257,9 @@ echo "Installing xmlui (${DSPACE_DIR}/webapps/xmlui -> ${CATALINA_BASE_XMLUI_OAI
 cp -R ${DSPACE_DIR}/webapps/xmlui ${CATALINA_BASE_XMLUI_OAI}/webapps/
 
 echo "Installing xmlui (${DSPACE_DIR}/webapps/rest -> ${CATALINA_BASE_XMLUI_OAI}/webapps/rest)"
+cp -R ${DSPACE_DIR}/webapps/rest ${CATALINA_BASE_XMLUI_OAI}/webapps/
+
+echo "Installing rest (${DSPACE_DIR}/webapps/rest -> ${CATALINA_BASE_XMLUI_OAI}/webapps/rest)"
 cp -R ${DSPACE_DIR}/webapps/rest ${CATALINA_BASE_XMLUI_OAI}/webapps/
 ######## /10. Copy $DSPACE_DIR/webapps to [$CATALINA_BASE_XMLUI_OAI/$CATALINA_BASE_SOLR]/webapps (solr, oai, xmlui) ########
 
