@@ -27,15 +27,16 @@ pipeline {
 				script {
 					def institusjoner = readYaml file: "${env.WORKSPACE}/ansible/institusjoner.yml"
 					def kunder = []
-					institusjoner.properties.each {
-						prop, val ->
-							kunder << prop
+					institusjoner.properties.each { prop, val ->
+						if (prop in ["metaClass","class"]) return
+						echo "${prop} = ${val}"
+						kunder << prop
 					}
 	                try {
 	                    timeout(activity: true, time: 120, unit: 'SECONDS') {
 	                        input(id: 'phaseInput', message: 'Velg parametre', parameters: [
 	                                choice(choices: ["utvikle", "test", "produksjon"], name: 'DEVSTEP', description: 'Utviklingsfase:'),
-									choice(choices: $kunder, name: 'KUNDE', description: "Kunde:")
+									choice(choices: kunder, name: 'KUNDE', description: "Kunde:")
 	                        ])
 	                    }
 	                } catch (err) {
