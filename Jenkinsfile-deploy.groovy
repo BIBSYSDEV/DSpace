@@ -39,7 +39,7 @@ pipeline {
 	                    throw err
 	                }
 					
-					echo inputResult.getClass()
+					println(inputResult.getClass())
 					env.DEVSTEP = inputResult[devstep]
 					env.KUNDE = inputResult[kunde]
 				}
