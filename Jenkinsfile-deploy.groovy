@@ -26,14 +26,14 @@ pipeline {
             steps {
 				script {
 					def institusjoner = readYaml file: "ansible/institusjoner.yml"
-					def kunder = institusjoner.keySet()
-/*
-					institusjoner.properties.each { prop, val ->
+					def kunder = []
+
+					institusjoner.each { prop, val ->
 						if (prop in ["metaClass","class"]) return
 						echo "${prop} = ${val}"
 						kunder << prop
 					}
-*/
+
 	                try {
 	                    timeout(activity: true, time: 120, unit: 'SECONDS') {
 	                        input(id: 'phaseInput', message: 'Velg parametre', parameters: [
