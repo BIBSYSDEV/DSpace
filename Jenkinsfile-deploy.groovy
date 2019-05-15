@@ -26,12 +26,14 @@ pipeline {
             steps {
 				script {
 					def institusjoner = readYaml file: "${env.WORKSPACE}/ansible/institusjoner.yml"
-					def kunder = []
+					def kunder = institusjoner.properties.keySet()
+/*
 					institusjoner.properties.each { prop, val ->
 						if (prop in ["metaClass","class"]) return
 						echo "${prop} = ${val}"
 						kunder << prop
 					}
+*/
 	                try {
 	                    timeout(activity: true, time: 120, unit: 'SECONDS') {
 	                        input(id: 'phaseInput', message: 'Velg parametre', parameters: [
@@ -40,7 +42,7 @@ pipeline {
 	                        ])
 	                    }
 	                } catch (err) {
-	                    println("Release aborted")
+	                    echo "Release aborted"
 	                    throw err
 	                }
 				}
