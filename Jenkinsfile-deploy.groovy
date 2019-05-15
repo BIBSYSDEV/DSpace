@@ -26,7 +26,7 @@ pipeline {
             steps {
 				script {
 					def institusjoner = readYaml file: "ansible/institusjoner.yml"
-					echo institusjoner
+					echo institusjoner.unit
 //					def kunder = institusjoner.properties.keySet().toArray()
 /*
 					institusjoner.properties.each { prop, val ->
