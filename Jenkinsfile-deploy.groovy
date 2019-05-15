@@ -20,7 +20,6 @@ pipeline {
 				script {
 					def institusjoner = readYaml file: "ansible/institusjoner.yml"
 					def kunder = []
-					def inputResult = false
 
 					institusjoner.each { prop, val ->
 						if (prop in ["metaClass","class"]) return
@@ -52,9 +51,9 @@ pipeline {
 					playbook: 'pre-build.yml',
 					inventory: 'localhost,',
 					extraVars: [
-							fase: "${env.DEVSTEP}",
-							jenkins_workspace: "${env.WORKSPACE}",
-							kunde: "${env.KUNDE}"
+							fase: env.DEVSTEP,
+							jenkins_workspace: env.WORKSPACE,
+							kunde: env.KUNDE
 						]
 					)
 				}
