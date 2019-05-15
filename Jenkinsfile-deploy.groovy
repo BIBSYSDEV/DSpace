@@ -28,7 +28,7 @@ pipeline {
 
 	                try {
 	                    timeout(activity: true, time: 120, unit: 'SECONDS') {
-	                        input(id: 'phaseInput', message: 'Velg parametre', parameters: [
+	                        def inputResult = input(id: 'phaseInput', message: 'Velg parametre', parameters: [
 	                                choice(choices: ["utvikle", "test", "produksjon"], name: 'devstep', description: 'Utviklingsfase:'),
 									choice(choices: kunder, name: 'kunde', description: "Kunde:")
 	                        ])
@@ -38,8 +38,8 @@ pipeline {
 	                    throw err
 	                }
 					
-					DEVSTEP = devstep
-					KUNDE = kunde
+					env.DEVSTEP = inputResult.devstep
+					env.KUNDE = inputResult.kunde
 				}
             }
         }
@@ -51,9 +51,9 @@ pipeline {
 					playbook: 'pre-build.yml',
 					inventory: 'localhost,',
 					extraVars: [
-							fase: DEVSTEP,
-							jenkins_workspace: "${env.WORKSPACE}",
-							kunde: KUNDE
+							fase: env.DEVSTEP,
+							jenkins_workspace: env.WORKSPACE,
+							kunde: env.KUNDE
 						]
 					)
 				}
@@ -65,7 +65,7 @@ pipeline {
                 script {
                     try {
                         timeout(activity: true, time: 120, unit: 'SECONDS') {
-                            input(message: "Deploy branch $VERSION for ${KUNDE} to phase ${DEVSTEP}?")
+                            input(message: "Deploy branch $VERSION for ${env.KUNDE} to phase ${env.DEVSTEP}?")
                         }
                     } catch (err) {
                         println("Release aborted")
@@ -102,9 +102,9 @@ pipeline {
 					playbook: 'deploy-brage.yml',
 					inventory: 'hosts',
 					extraVars: [
-							fase: DEVSTEP,
-							jenkins_workspace: "${env.WORKSPACE}",
-							kunde: KUNDE
+							fase: env.DEVSTEP,
+							jenkins_workspace: env.WORKSPACE,
+							kunde: env.KUNDE
 						]
 					)
 				}
