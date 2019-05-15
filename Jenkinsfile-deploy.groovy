@@ -26,7 +26,8 @@ pipeline {
             steps {
 				script {
 					def institusjoner = readYaml file: "ansible/institusjoner.yml"
-					def kunder = institusjoner.properties.keySet().toArray()
+					echo institusjoner
+//					def kunder = institusjoner.properties.keySet().toArray()
 /*
 					institusjoner.properties.each { prop, val ->
 						if (prop in ["metaClass","class"]) return
