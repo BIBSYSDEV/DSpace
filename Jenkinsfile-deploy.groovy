@@ -20,6 +20,7 @@ pipeline {
 				script {
 					def institusjoner = readYaml file: "ansible/institusjoner.yml"
 					def kunder = []
+					def inputResult = false
 
 					institusjoner.each { prop, val ->
 						if (prop in ["metaClass","class"]) return
@@ -28,7 +29,7 @@ pipeline {
 
 	                try {
 	                    timeout(activity: true, time: 120, unit: 'SECONDS') {
-	                        def inputResult = input(id: 'phaseInput', message: 'Velg parametre', parameters: [
+	                        inputResult = input(id: 'phaseInput', message: 'Velg parametre', parameters: [
 	                                choice(choices: ["utvikle", "test", "produksjon"], name: 'devstep', description: 'Utviklingsfase:'),
 									choice(choices: kunder, name: 'kunde', description: "Kunde:")
 	                        ])
@@ -38,8 +39,9 @@ pipeline {
 	                    throw err
 	                }
 					
-					env.DEVSTEP = inputResult.devstep
-					env.KUNDE = inputResult.kunde
+					echo inputResult.getClass()
+					env.DEVSTEP = inputResult[devstep]
+					env.KUNDE = inputResult[kunde]
 				}
             }
         }
