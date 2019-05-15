@@ -25,7 +25,7 @@ pipeline {
         stage('Select development phase') {
             steps {
 				script {
-					def institusjoner = readYaml file: "${env.WORKSPACE}/ansible/institusjoner.yml"
+					def institusjoner = readYaml file: "ansible/institusjoner.yml"
 					def kunder = institusjoner.properties.keySet().toArray()
 /*
 					institusjoner.properties.each { prop, val ->
