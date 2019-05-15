@@ -7,7 +7,6 @@ pipeline {
 
     environment {
         VERSION = "${env.BRANCH_NAME}".replaceAll('/', '_').toLowerCase()
-		DEVSTEP = "utvikle"
         CUSTOMZ = "customizations"
     }
 
@@ -47,9 +46,9 @@ pipeline {
 					playbook: 'pre-build.yml',
 					inventory: 'localhost,',
 					extraVars: [
-							fase: DEVSTEP,
+							fase: params.DEVSTEP,
 							jenkins_workspace: "${env.WORKSPACE}",
-							kunde: KUNDE
+							kunde: params.KUNDE
 						]
 					)
 				}
@@ -61,14 +60,14 @@ pipeline {
                 script {
                     try {
                         timeout(activity: true, time: 120, unit: 'SECONDS') {
-                            input(message: "Deploy branch $VERSION for $KUNDE to phase $DEVSTEP?")
+                            input(message: "Deploy branch $VERSION for ${params.KUNDE} to phase ${params.DEVSTEP}?")
                         }
                     } catch (err) {
                         println("Release aborted")
                         throw err
                     }
                 }
-                println("Deploying branch $VERSION for $KUNDE to $DEVSTEP")
+                println("Deploying branch $VERSION for ${params.KUNDE} to ${params.DEVSTEP})
             }
         }
 
@@ -98,9 +97,9 @@ pipeline {
 					playbook: 'deploy-brage.yml',
 					inventory: 'hosts',
 					extraVars: [
-							fase: 'utvikle',
+							fase: params.DEVSTEP,
 							jenkins_workspace: "${env.WORKSPACE}",
-							kunde: 'unit'
+							kunde: params.KUNDE
 						]
 					)
 				}
