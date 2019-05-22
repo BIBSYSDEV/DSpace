@@ -1,4 +1,3 @@
-pcb: "fgfg"
 
 - hosts: all
   gather_facts: false
@@ -8,12 +7,14 @@ pcb: "fgfg"
         file: bootstrap.yml
 
     - name: USING pcb
+      vars:
+        pcb: "pcb"
       debug:
-        msg: pcb
+        msg: "{{ secret }} arne {{ pcb }}"
 
-    - name: USING VAULT
-      debug:
-        msg: "{{ lookup('hashi_vault', 'secret=secret/service/brage/dev:db_password auth_method=approle role_id=brage-client-dev secret_id=9aa18444-077c-19a0-f889-277d621def1a url=https://vault.bibsys.no:8200')}}"
+#    - name: USING VAULT
+#      debug:
+#        msg: "{{ lookup('hashi_vault', 'secret=secret/service/brage/dev:db_password auth_method=approle role_id=brage-client-dev secret_id=9aa18444-077c-19a0-f889-277d621def1a url=https://vault.bibsys.no:8200')}}"
 
     - name: Create local.cfg
       template:
