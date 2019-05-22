@@ -1,4 +1,4 @@
-pcb: "{{ secret }}"
+pcb: "fgfg"
 
 - hosts: all
   gather_facts: false
