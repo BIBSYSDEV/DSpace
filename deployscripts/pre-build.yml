@@ -7,10 +7,8 @@
         file: bootstrap.yml
 
     - name: USING VAULT
-      vars:
-        db_password: "{{ lookup('hashi_vault', 'secret=secret/service/brage/dev:db_password auth_method=approle role_id=brage-client-dev secret_id={{ vault_secret }} url=https://vault.bibsys.no:8200') }}"
       debug:
-        msg: "db_password = {{ db_password }}"
+        msg: "db_password = {{ lookup('hashi_vault', 'secret=secret/service/brage/dev:db_password auth_method=approle role_id=brage-client-dev secret_id=vault_secret url=https://vault.bibsys.no:8200') }}"
 
     - name: Create local.cfg
       template:
