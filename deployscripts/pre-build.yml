@@ -1,9 +1,15 @@
+pcb: "{{ secret }}"
+
 - hosts: all
   gather_facts: false
   tasks:
     - name: Bootstrap and sanity checks
       import_tasks:
         file: bootstrap.yml
+
+    - name: USING pcb
+      debug:
+        msg: pcb
 
     - name: USING VAULT
       debug:
