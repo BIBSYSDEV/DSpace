@@ -8,7 +8,6 @@ pipeline {
     environment {
         VERSION = "${env.BRANCH_NAME}".replaceAll('/', '_').toLowerCase()
         CUSTOMZ = "customizations"
-		VAULT_SECRET = credentials('vault_password')
     }
 
     stages {
@@ -61,36 +60,36 @@ pipeline {
 							fase: inputResult.devstep,
 							jenkins_workspace: env.WORKSPACE,
 							kunde: inputResult.kunde,
-							vault_secret: VAULT_SECRET
+							vault_secret:  credentials('vault_password')
 						]
 					)
 				}
 			}
 		}
 
-        stage('Maven Build') {
-            steps {
-                echo "Building with maven"
-                sh 'mvn package -Dmirage2.on=true -P !dspace-lni,!dspace-sword,!dspace-jspui,!dspace-rdf'
-            }
-        }
-
-		stage('Deploy Brage') {
-			steps {
-				println("Deploying branch $VERSION for ${inputResult.kunde} to ${inputResult.devstep}")
-				dir("${env.WORKSPACE}/deployscripts") {
-					ansiblePlaybook(
-					playbook: 'deploy-brage.yml',
-					inventory: 'hosts',
-					extraVars: [
-							fase: inputResult.devstep,
-							jenkins_workspace: env.WORKSPACE,
-							kunde: inputResult.kunde
-						]
-					)
-				}
-			}
-		}
+//        stage('Maven Build') {
+//            steps {
+//                echo "Building with maven"
+//                sh 'mvn package -Dmirage2.on=true -P !dspace-lni,!dspace-sword,!dspace-jspui,!dspace-rdf'
+//            }
+//        }
+//
+//		stage('Deploy Brage') {
+//			steps {
+//				println("Deploying branch $VERSION for ${inputResult.kunde} to ${inputResult.devstep}")
+//				dir("${env.WORKSPACE}/deployscripts") {
+//					ansiblePlaybook(
+//					playbook: 'deploy-brage.yml',
+//					inventory: 'hosts',
+//					extraVars: [
+//							fase: inputResult.devstep,
+//							jenkins_workspace: env.WORKSPACE,
+//							kunde: inputResult.kunde
+//						]
+//					)
+//				}
+//			}
+//		}
 
         stage('Cleanup') {
             steps {
