@@ -52,7 +52,7 @@ pipeline {
         stage('Bootstrap workspace') {
             steps {
                 dir("${env.WORKSPACE}/deployscripts") {
-                    withCredentials([string(credentialsId: 'vault_password_' + inputResult.devstep, variable: 'VAULTSECRET')]) {
+                    withCredentials([string(credentialsId: 'brage_vault_' + inputResult.devstep, variable: 'VAULTSECRET')]) {
                         ansiblePlaybook(
                                 playbook: 'pre-build.yml',
                                 inventory: 'localhost,',
