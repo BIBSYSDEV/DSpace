@@ -11,15 +11,21 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.PosixParser;
+import org.dspace.content.MetadataField;
 import org.dspace.core.Context;
 import org.dspace.eperson.Group;
 import org.dspace.eperson.factory.EPersonServiceFactory;
 import org.dspace.eperson.service.GroupService;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.regex.Pattern;
+
 /**
- * remove-group -n [group name]
+ * remove-legacy-groups
  */
-public final class RemoveGroup {
+public final class RemoveLegacyGroups {
     /**
      * DSpace Context object
      */
@@ -36,23 +42,10 @@ public final class RemoveGroup {
     public static void main(String[] argv)
             throws Exception {
 
-        String usage = "Usage: remove-group -n <group name>";
+        RemoveLegacyGroups removeLegacyGroups = new RemoveLegacyGroups();
 
-        CommandLineParser parser = new PosixParser();
-        Options options = new Options();
+        removeLegacyGroups.perform();
 
-        options.addOption("n", "name", true, "group name");
-
-        CommandLine line = parser.parse(options, argv);
-
-        RemoveGroup removeGroup = new RemoveGroup();
-
-        if (line.hasOption("n") && (line.getOptionValue("n") != null && !line.getOptionValue("n").isEmpty())) {
-            removeGroup.perform(line.getOptionValue("n"));
-        } else {
-            System.out.println(usage);
-            System.exit(0);
-        }
     }
 
     /**
@@ -60,32 +53,49 @@ public final class RemoveGroup {
      *
      * @throws Exception if error
      */
-    protected RemoveGroup()
+    protected RemoveLegacyGroups()
             throws Exception {
         context = new Context();
         groupService = EPersonServiceFactory.getInstance().getGroupService();
     }
 
     /**
-     * Remove group with the given name.
+     * Remove legacy groups
      */
-    protected void perform(String name)
+    protected void perform()
             throws Exception {
 
         context.turnOffAuthorisationSystem();
 
-        // Find group
-        Group groupToRemove = groupService.findByName(context, name);
+        List<Group> groupsToRemove = new ArrayList<>();
 
-        if (groupToRemove == null) {
-            throw new IllegalStateException("Error, no group found with name '" + name + "'");
+        List<MetadataField> sortFields = new ArrayList<>();
+        List<Group> groups = groupService.findAll(context, sortFields);
+
+        String pattern = "COMMUNITY_\\d{1,}_MEMBER";
+
+        for (Group group : groups) {
+            if(group.getName().equals("COMMUNITY_WHEEL")) {
+                groupsToRemove.add(group);
+            } else if (Pattern.matches(pattern, group.getName())) {
+                groupsToRemove.add(group);
+            }
         }
 
-        // Remove the group
-        groupService.delete(context, groupToRemove);
+        if (groupsToRemove.isEmpty()) {
+            System.out.println("No legacy groups found");
+        } else {
+
+            // Remove the groups
+            for (Group groupToRemove : groupsToRemove) {
+                System.out.println("Removing group '" + groupToRemove.getName() + "'");
+                groupService.delete(context, groupToRemove);
+            }
+
+            System.out.println("Legacy groups removed");
+        }
 
         context.complete();
 
-        System.out.println("Group with name '" + name + "' removed");
     }
 }
