@@ -59,7 +59,7 @@ pipeline {
 							fase: inputResult.devstep,
 							jenkins_workspace: env.WORKSPACE,
 							kunde: inputResult.kunde,
-							vault_secret: "9aa18444-077c-19a0-f889-277d621def1a"
+							vault_secret: "4000d88d-4440-b8fe-6406-d51571fe93be"
 						]
 					)
 				}
