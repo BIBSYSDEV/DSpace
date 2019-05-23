@@ -68,29 +68,29 @@ pipeline {
             }
         }
 
-//        stage('Maven Build') {
-//            steps {
-//                echo "Building with maven"
-//                sh 'mvn package -Dmirage2.on=true -P !dspace-lni,!dspace-sword,!dspace-jspui,!dspace-rdf'
-//            }
-//        }
-//
-//		stage('Deploy Brage') {
-//			steps {
-//				println("Deploying branch $VERSION for ${inputResult.kunde} to ${inputResult.devstep}")
-//				dir("${env.WORKSPACE}/deployscripts") {
-//					ansiblePlaybook(
-//					playbook: 'deploy-brage.yml',
-//					inventory: 'hosts',
-//					extraVars: [
-//							fase: inputResult.devstep,
-//							jenkins_workspace: env.WORKSPACE,
-//							kunde: inputResult.kunde
-//						]
-//					)
-//				}
-//			}
-//		}
+        stage('Maven Build') {
+            steps {
+                echo "Building with maven"
+                sh 'mvn package -Dmirage2.on=true -P !dspace-lni,!dspace-sword,!dspace-jspui,!dspace-rdf'
+            }
+        }
+
+		stage('Deploy Brage') {
+			steps {
+				println("Deploying branch $VERSION for ${inputResult.kunde} to ${inputResult.devstep}")
+				dir("${env.WORKSPACE}/deployscripts") {
+					ansiblePlaybook(
+					playbook: 'deploy-brage.yml',
+					inventory: 'hosts',
+					extraVars: [
+							fase: inputResult.devstep,
+							jenkins_workspace: env.WORKSPACE,
+							kunde: inputResult.kunde
+						]
+					)
+				}
+			}
+		}
 
         stage('Cleanup') {
             steps {
