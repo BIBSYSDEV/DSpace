@@ -24,30 +24,30 @@ pipeline {
             }
         }
 
-        stage('Provide input parameters to confirm deployment') {
-            steps {
-				script {
-					def institusjoner = readYaml file: "${CUSTOMZ}/institusjoner.yml"
-					def kunder = []
-
-					institusjoner.each { prop, val ->
-						kunder << prop
-					}
-
-	                try {
-	                    timeout(activity: true, time: 120, unit: 'SECONDS') {
-	                        inputResult = input(id: 'phaseInput', message: 'Velg parametre', parameters: [
-	                                choice(choices: ["utvikle", "test", "produksjon"], name: 'devstep', description: 'Utviklingsfase:'),
-									choice(choices: kunder, name: 'kunde', description: "Kunde:")
-	                        ])
-	                    }
-	                } catch (err) {
-	                    echo "Release aborted"
-	                    throw err
-	                }
-				}
-            }
-        }
+//        stage('Provide input parameters to confirm deployment') {
+//            steps {
+//				script {
+//					def institusjoner = readYaml file: "${CUSTOMZ}/institusjoner.yml"
+//					def kunder = []
+//
+//					institusjoner.each { prop, val ->
+//						kunder << prop
+//					}
+//
+//	                try {
+//	                    timeout(activity: true, time: 120, unit: 'SECONDS') {
+//	                        inputResult = input(id: 'phaseInput', message: 'Velg parametre', parameters: [
+//	                                choice(choices: ["utvikle", "test", "produksjon"], name: 'devstep', description: 'Utviklingsfase:'),
+//									choice(choices: kunder, name: 'kunde', description: "Kunde:")
+//	                        ])
+//	                    }
+//	                } catch (err) {
+//	                    echo "Release aborted"
+//	                    throw err
+//	                }
+//				}
+//            }
+//        }
 
 		stage('Bootstrap workspace') {
 			steps {
@@ -56,9 +56,9 @@ pipeline {
 					playbook: 'pre-build.yml',
 					inventory: 'localhost,',
 					extraVars: [
-							fase: inputResult.devstep,
+							fase: utvikle,
 							jenkins_workspace: env.WORKSPACE,
-							kunde: inputResult.kunde,
+							kunde: unit,
 							vault_secret: "4000d88d-4440-b8fe-6406-d51571fe93be"
 						]
 					)
