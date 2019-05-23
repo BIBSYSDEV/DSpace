@@ -6,7 +6,7 @@
       import_tasks:
         file: bootstrap.yml
 
-    - name: use password
+    - name: show database-password
       debug:
         msg: "{{ lookup('hashi_vault', 'secret=secret/service/brage/' + fase + ':db_password auth_method=approle role_id=brage-client-' + fase + ' secret_id=' + vault_secret + ' url=https://vault.bibsys.no:8200')}}"
 
