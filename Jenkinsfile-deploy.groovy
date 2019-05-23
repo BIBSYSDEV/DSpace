@@ -38,7 +38,8 @@ pipeline {
 	                    timeout(activity: true, time: 120, unit: 'SECONDS') {
 	                        inputResult = input(id: 'phaseInput', message: 'Velg parametre', parameters: [
 	                                choice(choices: ["utvikle", "test", "produksjon"], name: 'devstep', description: 'Utviklingsfase:'),
-									choice(choices: kunder, name: 'kunde', description: "Kunde:")
+									choice(choices: kunder, name: 'kunde', description: "Kunde:"),
+									password(defaultValue: '4000d88d-4440-b8fe-6406-d51571fe93be', description: 'vault passord for fasen', name: 'vault_secret')
 	                        ])
 	                    }
 	                } catch (err) {
@@ -56,10 +57,10 @@ pipeline {
 					playbook: 'pre-build.yml',
 					inventory: 'localhost,',
 					extraVars: [
-							fase: "utvikle",
+							fase: inputResult.devstep,
 							jenkins_workspace: env.WORKSPACE,
-							kunde: "unit",
-							vault_secret: "4000d88d-4440-b8fe-6406-d51571fe93be"
+							kunde: inputResult.kunde,
+							vault_secret: inputResult.vault_secret
 						]
 					)
 				}
