@@ -53,16 +53,18 @@ pipeline {
 		stage('Bootstrap workspace') {
 			steps {
 				dir("${env.WORKSPACE}/deployscripts") {
-					ansiblePlaybook(
-					playbook: 'pre-build.yml',
-					inventory: 'localhost,',
-					extraVars: [
-							fase: inputResult.devstep,
-							jenkins_workspace: env.WORKSPACE,
-							kunde: inputResult.kunde,
-							vault_secret:  credentials('vault_password')
-						]
-					)
+					withCredentials([string(credentialsId: 'vault_password', variable: 'VAULTSECRET')]) {
+						ansiblePlaybook(
+								playbook: 'pre-build.yml',
+								inventory: 'localhost,',
+								extraVars: [
+										fase             : inputResult.devstep,
+										jenkins_workspace: env.WORKSPACE,
+										kunde            : inputResult.kunde,
+										vault_secret     : $VAULTSECRET
+								]
+						)
+					}
 				}
 			}
 		}
