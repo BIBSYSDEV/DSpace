@@ -12,7 +12,7 @@ pipeline {
 
     stages {
 
-		stage('Checkout Brage6 customizations') {
+        stage('Checkout Brage6 customizations') {
             steps {
                 script {
                     brageVars = checkout scm
@@ -26,72 +26,71 @@ pipeline {
 
         stage('Provide input parameters to confirm deployment') {
             steps {
-				script {
-					def institusjoner = readYaml file: "${CUSTOMZ}/institusjoner.yml"
-					def kunder = []
+                script {
+                    def institusjoner = readYaml file: "${CUSTOMZ}/institusjoner.yml"
+                    def kunder = []
 
-					institusjoner.each { prop, val ->
-						kunder << prop
-					}
+                    institusjoner.each { prop, val ->
+                        kunder << prop
+                    }
 
-	                try {
-	                    timeout(activity: true, time: 120, unit: 'SECONDS') {
-	                        inputResult = input(id: 'phaseInput', message: 'Velg parametre', parameters: [
-	                                choice(choices: ["utvikle", "test", "produksjon"], name: 'devstep', description: 'Utviklingsfase:'),
-									choice(choices: kunder, name: 'kunde', description: "Kunde:")
-									//,password(defaultValue: VAULT_SECRET, description: 'vault passord for fasen', name: 'vault_secret')  TIPS FOR Å BRUKE I PROD
-	                        ])
-	                    }
-	                } catch (err) {
-	                    echo "Release aborted"
-	                    throw err
-	                }
-				}
+                    try {
+                        timeout(activity: true, time: 120, unit: 'SECONDS') {
+                            inputResult = input(id: 'phaseInput', message: 'Velg parametre', parameters: [
+                                    choice(choices: ["utvikle", "test", "produksjon"], name: 'devstep', description: 'Utviklingsfase:'),
+                                    choice(choices: kunder, name: 'kunde', description: "Kunde:")
+                            ])
+                        }
+                    } catch (err) {
+                        echo "Release aborted"
+                        throw err
+                    }
+                }
             }
         }
 
-		stage('Bootstrap workspace') {
+        stage('Bootstrap workspace') {
+            steps {
+                dir("${env.WORKSPACE}/deployscripts") {
+                    withCredentials([string(credentialsId: 'vault_password_' + inputResult.devstep, variable: 'VAULTSECRET')]) {
+                        ansiblePlaybook(
+                                playbook: 'pre-build.yml',
+                                inventory: 'localhost,',
+                                extraVars: [
+                                        fase             : inputResult.devstep,
+                                        jenkins_workspace: env.WORKSPACE,
+                                        kunde            : inputResult.kunde,
+                                        vault_secret     : "$VAULTSECRET"
+                                ]
+                        )
+                    }
+                }
+            }
+        }
+
+        stage('Maven Build') {
+            steps {
+                echo "Building with maven"
+                sh 'mvn package -Dmirage2.on=true -P !dspace-lni,!dspace-sword,!dspace-jspui,!dspace-rdf'
+            }
+        }
+
+		stage('Deploy Brage') {
 			steps {
+				println("Deploying branch $VERSION for ${inputResult.kunde} to ${inputResult.devstep}")
 				dir("${env.WORKSPACE}/deployscripts") {
-					withCredentials([string(credentialsId: 'vault_password', variable: 'VAULTSECRET')]) {
-						ansiblePlaybook(
-								playbook: 'pre-build.yml',
-								inventory: 'localhost,',
-								extraVars: [
-										fase             : inputResult.devstep,
-										jenkins_workspace: env.WORKSPACE,
-										kunde            : inputResult.kunde,
-										vault_secret     : $VAULTSECRET
-								]
-						)
-					}
+					ansiblePlaybook(
+					playbook: 'deploy-brage.yml',
+					inventory: 'hosts',
+					extraVars: [
+							fase: inputResult.devstep,
+							jenkins_workspace: env.WORKSPACE,
+							kunde: inputResult.kunde
+						]
+					)
 				}
 			}
 		}
-
-//        stage('Maven Build') {
-//            steps {
-//                echo "Building with maven"
-//                sh 'mvn package -Dmirage2.on=true -P !dspace-lni,!dspace-sword,!dspace-jspui,!dspace-rdf'
-//            }
-//        }
-//
-//		stage('Deploy Brage') {
-//			steps {
-//				println("Deploying branch $VERSION for ${inputResult.kunde} to ${inputResult.devstep}")
-//				dir("${env.WORKSPACE}/deployscripts") {
-//					ansiblePlaybook(
-//					playbook: 'deploy-brage.yml',
-//					inventory: 'hosts',
-//					extraVars: [
-//							fase: inputResult.devstep,
-//							jenkins_workspace: env.WORKSPACE,
-//							kunde: inputResult.kunde
-//						]
-//					)
-//				}
-//			}
-//		}
 
         stage('Cleanup') {
             steps {
