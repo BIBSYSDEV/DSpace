@@ -8,6 +8,7 @@ pipeline {
     environment {
         VERSION = "${env.BRANCH_NAME}".replaceAll('/', '_').toLowerCase()
         CUSTOMZ = "customizations"
+		VAULT_SECRET = credentials('jvault_password')
     }
 
     stages {
@@ -60,7 +61,7 @@ pipeline {
 							fase: inputResult.devstep,
 							jenkins_workspace: env.WORKSPACE,
 							kunde: inputResult.kunde,
-							vault_secret: inputResult.vault_secret
+							vault_secret: VAULT_SECRET
 						]
 					)
 				}
