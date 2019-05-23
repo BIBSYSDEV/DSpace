@@ -8,7 +8,7 @@
 
     - name: USING VAULT
       debug:
-        msg: "{{ lookup('hashi_vault', 'secret=secret/service/brage/dev:db_password auth_method=approle role_id=brage-client-dev secret_id=9aa18444-077c-19a0-f889-277d621def1as url=https://vault.bibsys.no:8200') }}"
+        msg: "{{ lookup('hashi_vault', 'secret=secret/service/brage/dev:db_password auth_method=approle role_id=brage-client-dev secret_id=' + vault_secret + ' url=https://vault.bibsys.no:8200') }}"
       delegate_to: localhost
 
     - name: Create local.cfg
