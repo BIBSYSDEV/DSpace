@@ -12,17 +12,17 @@ pipeline {
 
     stages {
 
-		stage('Checkout Brage6 customizations') {
-            steps {
-                script {
-                    brageVars = checkout scm
-                    dir("${CUSTOMZ}") {
-                        //configVars = checkout scm
-                        git url: 'git@git.bibsys.no:team-rosa/brage6-customizations.git'
-                    }
-                }
-            }
-        }
+//		stage('Checkout Brage6 customizations') {
+//            steps {
+//                script {
+//                    brageVars = checkout scm
+//                    dir("${CUSTOMZ}") {
+//                        //configVars = checkout scm
+//                        git url: 'git@git.bibsys.no:team-rosa/brage6-customizations.git'
+//                    }
+//                }
+//            }
+//        }
 
 //        stage('Provide input parameters to confirm deployment') {
 //            steps {
