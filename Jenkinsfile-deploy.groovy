@@ -56,9 +56,9 @@ pipeline {
 					playbook: 'pre-build.yml',
 					inventory: 'localhost,',
 					extraVars: [
-							fase: utvikle,
+							fase: "utvikle",
 							jenkins_workspace: env.WORKSPACE,
-							kunde: unit,
+							kunde: "unit",
 							vault_secret: "4000d88d-4440-b8fe-6406-d51571fe93be"
 						]
 					)
