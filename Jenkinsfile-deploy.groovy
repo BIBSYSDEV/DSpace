@@ -39,8 +39,8 @@ pipeline {
 	                    timeout(activity: true, time: 120, unit: 'SECONDS') {
 	                        inputResult = input(id: 'phaseInput', message: 'Velg parametre', parameters: [
 	                                choice(choices: ["utvikle", "test", "produksjon"], name: 'devstep', description: 'Utviklingsfase:'),
-									choice(choices: kunder, name: 'kunde', description: "Kunde:"),
-									password(defaultValue: '4000d88d-4440-b8fe-6406-d51571fe93be', description: 'vault passord for fasen', name: 'vault_secret')
+									choice(choices: kunder, name: 'kunde', description: "Kunde:")
+									//,password(defaultValue: VAULT_SECRET, description: 'vault passord for fasen', name: 'vault_secret')  TIPS FOR Å BRUKE I PROD
 	                        ])
 	                    }
 	                } catch (err) {
