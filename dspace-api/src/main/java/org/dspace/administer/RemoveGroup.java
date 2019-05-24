@@ -11,6 +11,7 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.PosixParser;
+import org.apache.commons.lang.StringUtils;
 import org.dspace.core.Context;
 import org.dspace.eperson.Group;
 import org.dspace.eperson.factory.EPersonServiceFactory;
@@ -47,8 +48,14 @@ public final class RemoveGroup {
 
         RemoveGroup removeGroup = new RemoveGroup();
 
-        if (line.hasOption("n") && (line.getOptionValue("n") != null && !line.getOptionValue("n").isEmpty())) {
-            removeGroup.perform(line.getOptionValue("n"));
+        String value = "";
+
+        if(line.hasOption("n")) {
+            value = line.getOptionValue("n");
+        }
+
+        if(StringUtils.isNotEmpty(value)) {
+            removeGroup.perform(value);
         } else {
             System.out.println(usage);
             System.exit(0);
