@@ -267,7 +267,7 @@ header {
          color: $navbar-inverse-link-color;
          &:hover,
          &:focus {
-             color: $navbar-inverse-link-hover-color;
+             color:$navbar-inverse-link-color;
              background-color: $navbar-inverse-link-active-bg;
          }
 
@@ -275,7 +275,7 @@ header {
             color: $navbar-inverse-link-color;
             &:hover,
             &:focus {
-                color: $navbar-inverse-link-hover-color;
+                color: $navbar-inverse-link-color;
                 background-color: $navbar-inverse-link-active-bg;
             }
         }
