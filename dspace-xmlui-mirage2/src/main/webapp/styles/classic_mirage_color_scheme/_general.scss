@@ -268,7 +268,8 @@ header {
          &:hover,
          &:focus {
              color:$navbar-inverse-link-color;
-             background-color: $navbar-inverse-link-active-bg;
+             text-decoration:underline;
+             background-color: $navbar-inverse-bg;
          }
 
         > li > a {
@@ -276,7 +277,8 @@ header {
             &:hover,
             &:focus {
                 color: $navbar-inverse-link-color;
-                background-color: $navbar-inverse-link-active-bg;
+                text-decoration:underline;
+                background-color: $navbar-inverse-bg;
             }
         }
         > .active > a {
