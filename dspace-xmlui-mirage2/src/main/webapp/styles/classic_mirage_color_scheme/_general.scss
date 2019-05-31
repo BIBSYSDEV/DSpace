@@ -431,6 +431,7 @@ header {
             margin-bottom: 0;
             a:hover {
                 border-radius: $border-radius-base;
+                text-decoration:none;
                 border-bottom-color: $nav-tabs-link-hover-border-color;
             }
 
@@ -442,6 +443,7 @@ header {
                     background-color: $nav-pills-active-link-hover-bg;
                     border-radius: $border-radius-base;
                     border: 1px solid $nav-pills-active-link-hover-bg;
+                    text-decoration:none;
 
                     .caret {
                         border-top-color: $nav-pills-active-link-hover-color;
