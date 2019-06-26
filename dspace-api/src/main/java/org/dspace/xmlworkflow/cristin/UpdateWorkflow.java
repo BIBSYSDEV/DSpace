@@ -3,7 +3,7 @@ package org.dspace.xmlworkflow.cristin;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.dspace.core.ConfigurationManager;
+import org.dspace.services.factory.DSpaceServicesFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -29,7 +29,7 @@ import java.nio.file.StandardCopyOption;
 public class UpdateWorkflow {
 
     private static Logger log = Logger.getLogger(UpdateWorkflow.class);
-    private static String path = ConfigurationManager.getProperty("dspace.dir")+File.separator+"config"+File.separator+"workflow.xml";
+    private static String path = DSpaceServicesFactory.getInstance().getConfigurationService().getProperty("dspace.dir")+File.separator+"config"+File.separator+"workflow.xml";
 
     private UpdateWorkflow() {
     }

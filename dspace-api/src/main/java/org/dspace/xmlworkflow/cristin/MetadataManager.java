@@ -60,7 +60,7 @@ public class MetadataManager {
         return dcv;
     }
 
-    private class DCValue {
+    protected class DCValue {
 
         public String schema;
         public String element;
