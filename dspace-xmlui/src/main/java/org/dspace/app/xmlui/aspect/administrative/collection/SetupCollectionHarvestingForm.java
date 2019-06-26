@@ -243,7 +243,7 @@ public class SetupCollectionHarvestingForm extends AbstractDSpaceTransformer {
 		harvestLevel.addOption(harvestLevelValue != 1 && harvestLevelValue != 2, 3, T_option_md_and_bs);
 
 		// Add a metadata removal configuration option
-		harvestOptions.addLabel(T_label_metadata_format);
+		harvestOptions.addLabel(T_label_ingest_filter);
 		Select ingestFilter = harvestOptions.addItem().addSelect("ingest_filter");
 		String ingestFilterString = "oai.harvester.ingest_filter.";
 		this.getOptions(ingestFilterValue, ingestFilter, ingestFilterString);
