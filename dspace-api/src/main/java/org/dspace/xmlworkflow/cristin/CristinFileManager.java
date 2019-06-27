@@ -445,7 +445,7 @@ public class CristinFileManager {
      * @param bitstreams
      * @return the matching bitstream if one is found, or null if none is
      */
-    public Bitstream findBitstream(CristinBitstream ib, Bitstream[] bitstreams) {
+    public Bitstream findBitstream(CristinBitstream ib, List<Bitstream> bitstreams) {
         for (Bitstream bs : bitstreams) {
             if (ib.getName() != null) {
                 if (ib.getName().equals(bs.getName())) {
