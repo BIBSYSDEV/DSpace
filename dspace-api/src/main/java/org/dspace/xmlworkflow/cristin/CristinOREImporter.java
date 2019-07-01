@@ -233,7 +233,7 @@ public class CristinOREImporter implements IngestionCrosswalk, OAIConfigurableCr
 
             // select the potential target bundle
             // Bundle names are not unique, so we just pick the first one if there's more than one.
-            Bundle targetBundle = this.getTargetBundle(item, bundleName);
+            Bundle targetBundle = this.getTargetBundle(context, item, bundleName);
 
             // now ingest based on the following rules:
             //
@@ -280,14 +280,14 @@ public class CristinOREImporter implements IngestionCrosswalk, OAIConfigurableCr
         return metadataBitstream;
     }
 
-    private Bundle getTargetBundle(Item item, String bundleName)
+    private Bundle getTargetBundle(Context context, Item item, String bundleName)
             throws SQLException, AuthorizeException {
         List<Bundle> targetBundles = item.getBundles(bundleName);
         Bundle targetBundle;
 
         // if null, create the new bundle and add it in
         if (targetBundles.size() == 0) {
-            targetBundle = ContentServiceFactory.getInstance().getBundleService().create(new Context(), item, bundleName);
+            targetBundle = ContentServiceFactory.getInstance().getBundleService().create(context, item, bundleName);
             item.getBundles().add(targetBundle);
         } else {
             targetBundle = targetBundles.get(0);
@@ -296,7 +296,7 @@ public class CristinOREImporter implements IngestionCrosswalk, OAIConfigurableCr
     }
 
     /**
-     * Helper method to escape all chaacters that are not part of the canon set
+     * Helper method to escape all characters that are not part of the canon set
      *
      * @param sourceString source unescaped string
      */

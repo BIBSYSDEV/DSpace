@@ -527,10 +527,10 @@ public class OAIHarvester {
 
     	HarvestedItem hi;
 
-		final String handle = item.getHandle();
 		if (item != null) // found an item so we modify
     	{
-    		log.debug("Item " + handle + " was found locally. Using it to harvest " + itemOaiID + ".");
+			final String handle = item.getHandle();
+			log.debug("Item " + handle + " was found locally. Using it to harvest " + itemOaiID + ".");
 
     		// FIXME: check for null pointer if for some odd reason we don't have a matching hi
     		hi = harvestedItemService.find(ourContext, item);
@@ -730,7 +730,7 @@ public class OAIHarvester {
 		harvestedItemService.update(ourContext, hi);
 		long timeTaken = new Date().getTime() - timeStart.getTime();
 		log.info(String.format("Item %s (%s) has been ingested (item %d of %d). The whole process took: %d ms.",
-				handle, item.getID(), currentRecord, totalListSize, timeTaken));
+				item.getHandle(), item.getID(), currentRecord, totalListSize, timeTaken));
 
 		//Clear the context cache
 		ourContext.uncacheEntity(wi);
