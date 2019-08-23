@@ -157,17 +157,17 @@ public class CristinOREImporter implements IngestionCrosswalk, OAIConfigurableCr
         log.info("CristinOREImporter for Item " + item.getID() + " took: " + (new Date().getTime() - timeStart.getTime()) + "ms.");
     }
 
-    private void backupAndRemove(Item item, List<Bitstream> bitstreams) throws SQLException, AuthorizeException, IOException {
+    private void backupAndRemove(Context context, Item item, List<Bitstream> bitstreams) throws SQLException, AuthorizeException, IOException {
         // get the backup bundle
-        Bundle deleted = this.getDeletedBundle(item);
+        Bundle deleted = this.getDeletedBundle(context, item);
         for (Bitstream bitstream : bitstreams) {
             this.backupAndRemove(bitstream, deleted);
         }
     }
 
-    private void backupAndRemove(Item item, Bitstream bitstream) throws SQLException, AuthorizeException, IOException {
+    private void backupAndRemove(Context context, Item item, Bitstream bitstream) throws SQLException, AuthorizeException, IOException {
         // get the backup bundle
-        Bundle deleted = this.getDeletedBundle(item);
+        Bundle deleted = this.getDeletedBundle(context, item);
         // do the backup
         this.backupAndRemove(bitstream, deleted);
     }
@@ -181,22 +181,22 @@ public class CristinOREImporter implements IngestionCrosswalk, OAIConfigurableCr
         }
     }
 
-    private void backupAndRemove(Item item, Bundle sourceBundle, CristinBitstream ib)
+    private void backupAndRemove(Context context, Item item, Bundle sourceBundle, CristinBitstream ib)
             throws SQLException, AuthorizeException, IOException {
         List<Bitstream> bitstreams = sourceBundle.getBitstreams();
         CristinFileManager cfm = new CristinFileManager();
         Bitstream bs = cfm.findBitstream(ib, bitstreams);
-        Bundle deleted = this.getDeletedBundle(item);
+        Bundle deleted = this.getDeletedBundle(context, item);
         this.backupAndRemove(bs, deleted);
     }
 
-    private Bundle getDeletedBundle(Item item) throws SQLException, AuthorizeException {
+    private Bundle getDeletedBundle(Context context, Item item) throws SQLException, AuthorizeException {
         Bundle deleted;
         List<Bundle> deleteds = item.getBundles("DELETED");
         if (deleteds.size() > 0) {
             deleted = deleteds.get(0);
         } else {
-            deleted = ContentServiceFactory.getInstance().getBundleService().create(new Context(), item, "DELETED");
+            deleted = ContentServiceFactory.getInstance().getBundleService().create(context, item, "DELETED");
         }
         return deleted;
     }
@@ -246,7 +246,7 @@ public class CristinOREImporter implements IngestionCrosswalk, OAIConfigurableCr
 
             // 0 - we always ingest the metadata bitstream
             if (isMdBs) {
-                this.backupAndRemove(item, metadataBitstreams);
+                this.backupAndRemove(context, item, metadataBitstreams);
                 metadataBitstream = fm.ingestBitstream(context, href, ib.getName(), ib.getMimetype(), targetBundle);
             }
 
@@ -257,7 +257,7 @@ public class CristinOREImporter implements IngestionCrosswalk, OAIConfigurableCr
 
             // 2 - if the bitstream already exists, but has changed, replace it
             else if (fm.bitstreamNameAlreadyExists(ib, originalBitstreams)) {
-                this.backupAndRemove(item, targetBundle, ib);
+                this.backupAndRemove(context, item, targetBundle, ib);
                 fm.ingestBitstream(context, href, ib.getName(), ib.getMimetype(), targetBundle);
             }
 
@@ -270,7 +270,7 @@ public class CristinOREImporter implements IngestionCrosswalk, OAIConfigurableCr
         // 4 - if there is not a version of an existing bitstream in the incoming bitstreams, delete it
         for (Bitstream bs : originalBitstreams) {
             if (!fm.bitstreamIsIncoming(bs, incomingBitstreams)) {
-                this.backupAndRemove(item, bs);
+                this.backupAndRemove(context, item, bs);
             }
         }
 
@@ -335,14 +335,14 @@ public class CristinOREImporter implements IngestionCrosswalk, OAIConfigurableCr
 
     private String getType(Document document)
             throws JDOMException {
-        Properties props = ConfigurationManager.getProperties("cristin");
-        for (Object key : props.keySet()) {
-            if (((String) key).startsWith("xpath")) {
-                String xp = (String) props.get(key);
+        List<String> props = DSpaceServicesFactory.getInstance().getConfigurationService().getPropertyKeys("cristin");
+        for (String key : props) {
+            if (key.startsWith("cristin.xpath")) {
+                String xp = DSpaceServicesFactory.getInstance().getConfigurationService().getProperty(key);
                 XPath xpath = XPath.newInstance(xp);
                 List result = xpath.selectNodes(document);
                 if (result.size() > 0) {
-                    return ((String) key).substring("xpath.".length());
+                    return key.substring("cristin.xpath.".length());
                 }
             }
         }
@@ -413,9 +413,9 @@ public class CristinOREImporter implements IngestionCrosswalk, OAIConfigurableCr
     private Document marshalInstitution() {
         Element rootElement = new Element("institution");
         Document doc = new Document(rootElement);
-        rootElement.addContent(new Element("archiveName", DSpaceServicesFactory.getInstance().getConfigurationService().getProperty("dspace.name")));
-        rootElement.addContent(new Element("instName", DSpaceServicesFactory.getInstance().getConfigurationService().getProperty("dspace.fullname")));
-        rootElement.addContent(new Element("cristin", DSpaceServicesFactory.getInstance().getConfigurationService().getProperty("dspace.cristinId")));
+        rootElement.addContent(new Element("archiveName").addContent(DSpaceServicesFactory.getInstance().getConfigurationService().getProperty("dspace.name")));
+        rootElement.addContent(new Element("instName").addContent(DSpaceServicesFactory.getInstance().getConfigurationService().getProperty("dspace.fullname")));
+        rootElement.addContent(new Element("cristin").addContent(DSpaceServicesFactory.getInstance().getConfigurationService().getProperty("dspace.cristinId")));
         return doc;
     }
 

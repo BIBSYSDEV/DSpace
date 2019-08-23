@@ -3,7 +3,7 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:dim="http://www.dspace.org/xmlns/dspace/dim"
                 xmlns:frida="http://www.cristin.no/techdoc/xsd/resultater/1.0/resultater.xsd"
-                xmlns:brage="http://brage.bibsys.no"
+                xmlns:brage="http://brage.unit.no"
                 xmlns:exslt="http://exslt.org/common"
                 exclude-result-prefixes="frida brage">
 

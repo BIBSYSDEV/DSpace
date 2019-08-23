@@ -836,13 +836,13 @@ public class OAIHarvester {
     private void scrubMetadata(Item item) throws SQLException, HarvestingException, AuthorizeException, IOException
     {
         // The two options, with three possibilities each: add, ignore, fail
-        String schemaChoice = configurationService.getProperty("oai", "harvester.unknownSchema");
+        String schemaChoice = configurationService.getProperty("oai.harvester.unknownSchema");
         if (schemaChoice == null)
         {
             schemaChoice = "fail";
         }
 
-        String fieldChoice = configurationService.getProperty("oai", "harvester.unknownField");
+        String fieldChoice = configurationService.getProperty("oai.harvester.unknownField");
         if (fieldChoice == null)
         {
             fieldChoice = "fail";
@@ -879,7 +879,7 @@ public class OAIHarvester {
 
             if (mdSchema != null) {
                 // Verify that the element exists; this part is reachable only if the metadata schema is valid
-                MetadataField mdField = metadataFieldService.findByElement(ourContext, "" +mdSchema.getID(),
+                MetadataField mdField = metadataFieldService.findByElement(ourContext, mdSchema,
 						value.getMetadataField().getElement(), value.getMetadataField().getQualifier());
                 if (mdField == null) {
                     if (fieldChoice.equals("add")) {
