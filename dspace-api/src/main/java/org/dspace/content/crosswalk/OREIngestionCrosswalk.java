@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.ConnectException;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.util.Arrays;
@@ -180,9 +182,9 @@ public class OREIngestionCrosswalk
         	if (href != null) {
         		try {
 		        	// Make sure the url string escapes all the oddball characters
-        			String processedURL = encodeForURL(href);
+        			//String processedURL =  URLEncoder.encode(href, StandardCharsets.UTF_8.toString());
         			// Generate a requeset for the aggregated resource
-        			ARurl = new URL(processedURL);
+        			ARurl = new URL(href);
 		        	in = ARurl.openStream();
         		}
         		catch(FileNotFoundException fe) {
@@ -190,6 +192,10 @@ public class OREIngestionCrosswalk
             	}
         		catch(ConnectException fe) {
             		log.error("The provided URI was invalid: " + href);
+            	}
+        		catch(Exception e) {
+            		log.error("Error using: " + href);
+            		throw(e);
             	}
         	}
         	else {

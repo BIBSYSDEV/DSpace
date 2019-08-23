@@ -494,7 +494,11 @@ public class OAIHarvester {
     	Element oreREM = null;
     	if (harvestRow.getHarvestType() > 1) {
     		oreREM = getMDrecord(harvestRow.getOaiSource(), itemOaiID, OREPrefix).get(0);
-    		ORExwalk = (IngestionCrosswalk)pluginService.getNamedPlugin(IngestionCrosswalk.class, this.ORESerialKey);
+    		String oreKey = this.ORESerialKey;
+    		if ("cristin".equals(harvestRow.getMetadataAuthorityType())) {
+    			oreKey = "cristin_ore";
+			}
+    		ORExwalk = (IngestionCrosswalk)pluginService.getNamedPlugin(IngestionCrosswalk.class, oreKey);
 		}
 
     	// Ignore authorization
@@ -677,7 +681,7 @@ public class OAIHarvester {
     		}
 
     		try {
-    			item = installItemService.installItem(ourContext, wi, hdl);
+    			item = installItemService.installItem(ourContext, wi, null);
     		}
     		// clean up the workspace item if something goes wrong before
     		catch(SQLException | IOException | AuthorizeException se) {
