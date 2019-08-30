@@ -279,6 +279,9 @@ public class SetupCollectionHarvestingForm extends AbstractDSpaceTransformer {
 			String key = (String) oaiPrps.nextElement();
 			if (key.startsWith(keyPhrase)) {
 				String metadataString = (DSpaceServicesFactory.getInstance().getConfigurationService().getProperty(key));
+				if (metadataString.indexOf(',') != -1) 		{
+					metadataString = metadataString.substring(metadataString.indexOf(',') + 1);
+				}
 				String metadataKey = key.substring(keyPhrase.length());
 				select.addOption(metadataKey.equalsIgnoreCase(value), metadataKey, metadataString);
 			}
