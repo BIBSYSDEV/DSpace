@@ -27,7 +27,7 @@ public class MetadataManager {
      * @param config
      */
     public void removeAuthorityMetadata(Context context, Item item, String module, String config) throws CristinException, SQLException {
-        String raw = configService.getProperty(module, config);
+        String raw = configService.getProperty(module + "." + config);
         if (raw == null || "".equals(raw)) {
             return;
         }
