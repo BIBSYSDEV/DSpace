@@ -573,15 +573,12 @@ public class OAIHarvester {
             MetadataRemover mdr = mdAuthority != null ?
                     (MetadataRemover) pluginService.getNamedPlugin(MetadataRemover.class, mdAuthority) :
                     null;
+			if (mdr == null) {
+				mdr = new DefaultMetadataRemover();
+			}
 
-            if (mdr != null)
-            {
-                mdr.clearMetadata(ourContext, item);
-            }
-            else
-            {
-            	itemService.clearMetadata(ourContext, item, Item.ANY, Item.ANY, Item.ANY, Item.ANY);
-            }
+			mdr.clearMetadata(ourContext, item);
+
     		if (descMD.size() == 1)
             {
                 MDxwalk.ingest(ourContext, item, descMD.get(0), true);
@@ -592,7 +589,7 @@ public class OAIHarvester {
             }
 			// Dspace may remove all metadatum -> in these cases the handle metadatum is lost unless the ingested metadadata somehow
 			// provides this data. This step enforces the rule that at least one metadatum field contains the full handle url
-			if (extractHandle(item) == null)
+			if (handleMetadatumBackup.getValue() != null)
 			{
 				itemService.addMetadata(ourContext, item, handleMetadatumBackup.getMetadataField().getMetadataSchema().getName(), handleMetadatumBackup.getMetadataField().getElement(),
 						handleMetadatumBackup.getMetadataField().getQualifier(), handleMetadatumBackup.getLanguage(), handleMetadatumBackup.getValue());
@@ -724,11 +721,11 @@ public class OAIHarvester {
 
 		hi.setHarvestDate(new Date());
 
-                 // Add provenance that this item was harvested via OAI
-                String provenanceMsg = "Item created via OAI harvest from source: "
-                                        + this.harvestRow.getOaiSource() + " on " +  new DCDate(hi.getHarvestDate())
-                                        + " (GMT).  Item's OAI Record identifier: " + hi.getOaiID();
-				itemService.addMetadata(ourContext, item, "dc", "description", "provenance", "en", provenanceMsg);
+		 // Add provenance that this item was harvested via OAI
+		String provenanceMsg = "Item created via OAI harvest from source: "
+								+ this.harvestRow.getOaiSource() + " on " +  new DCDate(hi.getHarvestDate())
+								+ " (GMT).  Item's OAI Record identifier: " + hi.getOaiID();
+		itemService.addMetadata(ourContext, item, "dc", "description", "provenance", "en", provenanceMsg);
 
 		itemService.update(ourContext, item);
 		harvestedItemService.update(ourContext, hi);
