@@ -27,12 +27,11 @@ public class MetadataManager {
      * @param config
      */
     public void removeAuthorityMetadata(Context context, Item item, String module, String config) throws CristinException, SQLException {
-        String raw = configService.getProperty(module + "." + config);
-        if (raw == null || "".equals(raw)) {
+        String[] raw = configService.getArrayProperty(module + "." + config);
+        if (raw == null || raw.length == 0) {
             return;
         }
-        String[] parts = raw.split(",");
-        for (String part : parts) {
+        for (String part : raw) {
             DCValue dcv = this.makeMetadatumValue(part.trim(), null);
             itemService.clearMetadata(context, item, dcv.schema, dcv.element, dcv.qualifier, Item.ANY);
         }
