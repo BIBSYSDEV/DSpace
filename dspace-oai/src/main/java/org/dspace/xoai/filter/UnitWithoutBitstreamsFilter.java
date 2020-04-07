@@ -29,9 +29,11 @@ public class UnitWithoutBitstreamsFilter extends DSpaceFilter {
 
     @Override
     public boolean isShown(DSpaceItem item) {
+        log.info("Unit filter is on.");
         try {
             // If Handle or Item are not found, return false
             String handle = DSpaceItem.parseHandle(item.getIdentifier());
+            log.info("item : " + handle);
             if (handle == null) {
                 return false;
             }
@@ -39,8 +41,11 @@ public class UnitWithoutBitstreamsFilter extends DSpaceFilter {
             if (dspaceItem == null) {
                 return false;
             }
+            log.info("dspaceitem found!!!");
             final List<Bundle> originalBundle = itemService.getBundles(dspaceItem, Constants.CONTENT_BUNDLE_NAME);
+            log.info(Constants.CONTENT_BUNDLE_NAME + " - bundle found. no should be 1 or 0: " + originalBundle.size());
             for (Bundle bundle : originalBundle) {
+                log.info("Found " + bundle.getBitstreams().size() + " bitsreams in teh bundle");
                 if (!bundle.getBitstreams().isEmpty()) {
                     return true;
                 }
