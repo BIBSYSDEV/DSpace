@@ -246,25 +246,32 @@
                     <LeftCondition>
                         <And>
                             <LeftCondition>
-                                        <Custom ref="titleExistsCondition"/>
-                                    </LeftCondition>
-                                    <RightCondition>
-                                        <Custom ref="authorExistsCondition"/>
-                                    </RightCondition>
-                                </And>
+                                <Custom ref="titleExistsCondition"/>
                             </LeftCondition>
                             <RightCondition>
-                        <And>
-                            <LeftCondition>
-                                <Not>
-                                    <Condition>
-                                        <Custom ref="restrictedAccessCondition"/>
-                                    </Condition>
-                                </Not>
+                                <Custom ref="authorExistsCondition"/>
+                            </RightCondition>
+                        </And>
                     </LeftCondition>
                     <RightCondition>
-                        <Or>
+                        <And>
                             <LeftCondition>
+                                <Or>
+                                    <LeftCondition>
+                                        <Not>
+                                            <Condition>
+                                                <Custom ref="restrictedAccessCondition"/>
+                                            </Condition>
+                                        </Not>
+                                    </LeftCondition>
+                                    <RightCondition>
+                                        <Custom ref="itemWithoutBitstreamsCondition"/>
+                                    </RightCondition>
+                                </Or>
+                            </LeftCondition>
+                            <RightCondition>
+                                <Or>
+                                    <LeftCondition>
                                         <Or>
                                             <LeftCondition>
                                                 <Custom ref="itemAccessCondition"/>
@@ -275,11 +282,11 @@
                                         </Or>
                                     </LeftCondition>
                                     <RightCondition>
-                                <Custom ref="openaireRelationCondition"/>
+                                        <Custom ref="openaireRelationCondition"/>
+                                    </RightCondition>
+                                </Or>
                             </RightCondition>
-                        </Or>
-                    </RightCondition>
-                </And>
+                        </And>
                     </RightCondition>
                 </And>
             </Definition>
@@ -420,6 +427,12 @@
              any metadata or content files.  -->
         <CustomCondition id="itemWithdrawnCondition">
             <Class>org.dspace.xoai.filter.DSpaceWithdrawnFilter</Class>
+        </CustomCondition>
+
+        <!-- This condition determines if an Item has at least one bitsream. This condition
+             ensures records without any bitstreams are not display at all.  -->
+        <CustomCondition id="itemWithoutBitstreamsCondition">
+            <Class>org.dspace.xoai.filter.UnitWithoutBitstreamsFilter</Class>
         </CustomCondition>
 
         <!-- This condition determines if an Item has a "dc.relation" field
