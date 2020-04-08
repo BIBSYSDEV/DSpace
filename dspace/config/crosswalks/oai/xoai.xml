@@ -256,7 +256,7 @@
                     <RightCondition>
                         <And>
                             <LeftCondition>
-                                <Or>
+                                <And>
                                     <LeftCondition>
                                         <Not>
                                             <Condition>
@@ -267,7 +267,7 @@
                                     <RightCondition>
                                         <Custom ref="itemWithoutBitstreamsCondition"/>
                                     </RightCondition>
-                                </Or>
+                                </And>
                             </LeftCondition>
                             <RightCondition>
                                 <Or>
