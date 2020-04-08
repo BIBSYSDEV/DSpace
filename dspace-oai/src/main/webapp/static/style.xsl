@@ -124,6 +124,9 @@
                     <div class="row-fluid text-center">
                         <div class="vertical-space"></div>
                         <p><small>Design by Lyncode</small></p>
+                        <p><xsl:value-of select="concat(oai:repositoryName/text(), ' OAI-PMH Data Provider')"/></p>
+                        <p><xsl:value-of select="oai:repositoryName/text()"/></p>
+                        <p><xsl:value-of select="oai:repositoryName/text()"/> OAI-PMH Data Provider</p>
                         <p>
                             <a href="http://www.lyncode.com">
                                 <img style="height: 20px;" src="static/img/lyncode.png" alt="Lyncode" />
