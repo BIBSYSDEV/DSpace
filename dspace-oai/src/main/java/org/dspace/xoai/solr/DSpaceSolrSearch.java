@@ -38,7 +38,6 @@ public class DSpaceSolrSearch
         {
             solrParams.addSortField("item.id", ORDER.asc);
             log.info("solrParams query:" + solrParams.getQuery());
-            log.info("solrParams filterQuery:" + solrParams.getFilterQueries().toString());
             log.info("solrParams toString:" + solrParams.toString());
             QueryResponse response = server.query(solrParams);
             return response.getResults();
@@ -46,7 +45,6 @@ public class DSpaceSolrSearch
         catch (SolrServerException ex)
         {
             log.info("solrParams query:" + solrParams.getQuery());
-            log.info("solrParams filterQuery:" + solrParams.getFilterQueries().toString());
             log.info("solrParams toString:" + solrParams.toString());
             throw new DSpaceSolrException(ex.getMessage(), ex);
         }
