@@ -319,10 +319,17 @@
             <Definition>
                 <Or>
                     <LeftCondition>
-                        <Custom ref="itemAccessCondition"/>
+                        <Custom ref="itemWithoutBitstreamsCondition"/>
                     </LeftCondition>
                     <RightCondition>
-                        <Custom ref="itemWithdrawnCondition"/>
+                        <Or>
+                            <LeftCondition>
+                                <Custom ref="itemAccessCondition"/>
+                            </LeftCondition>
+                            <RightCondition>
+                                <Custom ref="itemWithdrawnCondition"/>
+                            </RightCondition>
+                        </Or>
                     </RightCondition>
                 </Or>
             </Definition>
