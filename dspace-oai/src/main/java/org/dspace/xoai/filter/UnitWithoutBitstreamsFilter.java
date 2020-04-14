@@ -25,7 +25,7 @@ public class UnitWithoutBitstreamsFilter extends DSpaceFilter {
     @Override
     public SolrFilterResult buildSolrQuery() {
         log.info("Unit filter is on.");
-        return new SolrFilterResult("has_content_in_original_bundle_filter:true");
+        return new SolrFilterResult("item.has_content_in_original_bundle_filter:true");
     }
 
     @Override
