@@ -356,7 +356,7 @@ public class XOAI {
         String handle = item.getHandle();
         doc.addField("item.handle", handle);
 
-        boolean hasOriginalBundleWithContent = this.hasOriginalBundleWithContent(item);
+        boolean hasOriginalBundleWithContent = this.hasOriginalBundleWithContent(item, Constants.CONTENT_BUNDLE_NAME);
         log.info(String.format("item %s has files on original: %b", item.getHandle(), hasOriginalBundleWithContent));
 //        doc.addField("item.has_content_in_original_bundle_filter", hasOriginalBundleWithContent);
 
@@ -471,6 +471,11 @@ public class XOAI {
                 }
             }
             context.uncacheEntity(policy);
+        }
+
+        if (!hasOriginalBundleWithContent(item, Constants.DEFAULT_BUNDLE_NAME) && hasOriginalBundleWithContent(item,
+                "ORE")) {
+            context.uncacheEntity(item);
         }
         
         return false;
@@ -681,15 +686,16 @@ public class XOAI {
     }
 
     /**
-     * Checks whether the given item has a bundle with the name ORIGINAL
+     * Checks whether the given item has a bundle with the name e.g. ORIGINAL
      * containing at least one bitstream.
      *
      * @param item
      *            to check
+     * @param bundleName bundel name e.g. ORIGINAL or ORE
      * @return true if there is at least on bitstream in the bundle named
-     *         ORIGINAL, otherwise false
+     *         e.g. ORIGINAL, otherwise false
      */
-    private boolean hasOriginalBundleWithContent(Item item)
+    private boolean hasOriginalBundleWithContent(Item item, String bundleName)
     {
         List<Bundle> bundles;
         bundles = item.getBundles();
@@ -698,7 +704,7 @@ public class XOAI {
             for (Bundle curBundle : bundles)
             {
                 String bName = curBundle.getName();
-                if ((bName != null) && bName.equals("ORIGINAL"))
+                if ((bName != null) && bName.equals(bundleName))
                 {
                     List<Bitstream> bitstreams = curBundle.getBitstreams();
                     if (bitstreams != null && bitstreams.size() > 0)
