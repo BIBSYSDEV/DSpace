@@ -380,7 +380,7 @@ public class XOAI {
 
         boolean isPublic = !isEmbargoed || (isIndexed && isCurrentlyVisible && hasOriginalBundleWithContent);
         log.info(String.format("This item %s is public: %b  (!isEmbargoed=%b || isIndexed=%b && isCurrentlyVisible=%b "
-                        + "&& hasOriginalBundleWithContent= %b)", item.getHandle(), isEmbargoed,
+                        + "&& hasOriginalBundleWithContent= %b)", item.getHandle(), isPublic, isEmbargoed,
                 isIndexed, isCurrentlyVisible, hasOriginalBundleWithContent));
 
         doc.addField("item.public", isPublic);
