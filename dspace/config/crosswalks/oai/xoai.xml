@@ -256,18 +256,11 @@
                     <RightCondition>
                         <And>
                             <LeftCondition>
-                                <Or>
-                                    <LeftCondition>
-                                        <Not>
-                                            <Condition>
-                                                <Custom ref="restrictedAccessCondition"/>
-                                            </Condition>
-                                        </Not>
-                                    </LeftCondition>
-                                    <RightCondition>
-                                        <Custom ref="itemWithoutBitstreamsCondition"/>
-                                    </RightCondition>
-                                </Or>
+                                <Not>
+                                    <Condition>
+                                        <Custom ref="restrictedAccessCondition"/>
+                                    </Condition>
+                                </Not>
                             </LeftCondition>
                             <RightCondition>
                                 <Or>
@@ -315,17 +308,10 @@
             <Definition>
                 <Or>
                     <LeftCondition>
-                        <Custom ref="itemWithoutBitstreamsCondition"/>
+                         <Custom ref="itemAccessCondition"/>
                     </LeftCondition>
                     <RightCondition>
-                        <Or>
-                            <LeftCondition>
-                                <Custom ref="itemAccessCondition"/>
-                            </LeftCondition>
-                            <RightCondition>
-                                <Custom ref="itemWithdrawnCondition"/>
-                            </RightCondition>
-                        </Or>
+                         <Custom ref="itemWithdrawnCondition"/>
                     </RightCondition>
                 </Or>
             </Definition>
