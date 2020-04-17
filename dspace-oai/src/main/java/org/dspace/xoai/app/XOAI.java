@@ -378,8 +378,9 @@ public class XOAI {
          * status in the future will be marked as such.
          */
 
-        boolean isPublic = !isEmbargoed || (isIndexed && isCurrentlyVisible) && hasOriginalBundleWithContent;
-        log.info(String.format("This item %s is public: %b  (!isEmbargoed=%b || isIndexed=%b && isCurrentlyVisible=%b) "
+        boolean isPublic = (!isEmbargoed  && hasOriginalBundleWithContent) || (isIndexed && isCurrentlyVisible);
+        log.info(String.format("This item %s is public: %b  (!isEmbargoed=%b || (isIndexed=%b && "
+                        + "isCurrentlyVisible=%b) "
                         + "&& hasOriginalBundleWithContent= %b)", item.getHandle(), isPublic, isEmbargoed,
                 isIndexed, isCurrentlyVisible, hasOriginalBundleWithContent));
 
