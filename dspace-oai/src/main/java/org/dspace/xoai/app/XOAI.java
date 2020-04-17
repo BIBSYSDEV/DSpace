@@ -356,6 +356,9 @@ public class XOAI {
         String handle = item.getHandle();
         doc.addField("item.handle", handle);
 
+        boolean hasOriginalBundleWithContent = this.hasOriginalBundleWithContent(item);
+        doc.addField("item.has_content_in_original_bundle_filter", hasOriginalBundleWithContent);
+
         boolean isEmbargoed = !this.isPublic(item);
         boolean isCurrentlyVisible = this.checkIfVisibleInOAI(item);
         boolean isIndexed = this.checkIfIndexed(item);
@@ -670,5 +673,36 @@ public class XOAI {
             System.out.println("     -v Verbose output");
             System.out.println("     -h Shows this text");
         }
+    }
+
+    /**
+     * Checks whether the given item has a bundle with the name ORIGINAL
+     * containing at least one bitstream.
+     *
+     * @param item
+     *            to check
+     * @return true if there is at least on bitstream in the bundle named
+     *         ORIGINAL, otherwise false
+     */
+    private boolean hasOriginalBundleWithContent(Item item)
+    {
+        List<Bundle> bundles;
+        bundles = item.getBundles();
+        if (bundles != null)
+        {
+            for (Bundle curBundle : bundles)
+            {
+                String bName = curBundle.getName();
+                if ((bName != null) && bName.equals("ORIGINAL"))
+                {
+                    List<Bitstream> bitstreams = curBundle.getBitstreams();
+                    if (bitstreams != null && bitstreams.size() > 0)
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }

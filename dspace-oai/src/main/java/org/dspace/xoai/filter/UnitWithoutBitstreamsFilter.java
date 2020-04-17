@@ -2,6 +2,7 @@ package org.dspace.xoai.filter;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.dspace.content.Bitstream;
 import org.dspace.content.Bundle;
 import org.dspace.content.Item;
 import org.dspace.content.factory.ContentServiceFactory;
@@ -42,12 +43,12 @@ public class UnitWithoutBitstreamsFilter extends DSpaceFilter {
             if (dspaceItem == null) {
                 return false;
             }
-            log.info("dspaceitem found!!!");
+            log.info("dspace item found!!!");
             final List<Bundle> originalBundle = itemService.getBundles(dspaceItem, Constants.CONTENT_BUNDLE_NAME);
             log.info(Constants.CONTENT_BUNDLE_NAME + " - bundle found. no should be 1 or 0: " + originalBundle.size());
             for (Bundle bundle : originalBundle) {
                 log.info("Found " + bundle.getBitstreams().size() + " bitsreams in teh bundle");
-                if (!bundle.getBitstreams().isEmpty()) {
+                if (bundle.getBitstreams() != null && !bundle.getBitstreams().isEmpty()) {
                     return true;
                 }
             }
@@ -56,4 +57,5 @@ public class UnitWithoutBitstreamsFilter extends DSpaceFilter {
         }
         return false;
     }
+
 }

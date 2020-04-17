@@ -265,11 +265,7 @@
                                         </Not>
                                     </LeftCondition>
                                     <RightCondition>
-                                        <Not>
-                                            <Condition>
-                                                <Custom ref="itemWithoutBitstreamsCondition"/>
-                                            </Condition>
-                                        </Not>
+                                        <Custom ref="itemWithoutBitstreamsCondition"/>
                                     </RightCondition>
                                 </Or>
                             </LeftCondition>
@@ -319,11 +315,7 @@
             <Definition>
                 <Or>
                     <LeftCondition>
-                        <Not>
-                            <Condition>
-                                <Custom ref="itemWithoutBitstreamsCondition"/>
-                            </Condition>
-                        </Not>
+                        <Custom ref="itemWithoutBitstreamsCondition"/>
                     </LeftCondition>
                     <RightCondition>
                         <Or>
