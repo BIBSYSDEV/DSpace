@@ -386,7 +386,9 @@ public class XOAI {
         // if the visibility of the item will change in the future due to an
         // embargo, mark it as such.
 
-        doc.addField("item.willChangeStatus", willChangeStatus(item));
+        boolean willChangeStatus = willChangeStatus(item);
+        log.info(String.format("This item %s will change status: %b", item.getHandle(), willChangeStatus));
+        doc.addField("item.willChangeStatus", willChangeStatus);
 
         /*
          * Mark an item as deleted not only if it is withdrawn, but also if it
