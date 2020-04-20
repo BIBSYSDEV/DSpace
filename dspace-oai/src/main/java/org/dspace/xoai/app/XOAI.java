@@ -475,7 +475,7 @@ public class XOAI {
 
         if (!hasOriginalBundleWithContent(item, Constants.DEFAULT_BUNDLE_NAME) && hasOriginalBundleWithContent(item,
                 "ORE")) {
-            context.uncacheEntity(item);
+            return true;
         }
         
         return false;
