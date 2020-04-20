@@ -422,12 +422,6 @@
             <Class>org.dspace.xoai.filter.DSpaceWithdrawnFilter</Class>
         </CustomCondition>
 
-        <!-- This condition determines if an Item has at least one bitsream. This condition
-             ensures records without any bitstreams are not display at all.  -->
-        <CustomCondition id="itemWithoutBitstreamsCondition">
-            <Class>org.dspace.xoai.filter.UnitWithoutBitstreamsFilter</Class>
-        </CustomCondition>
-
         <!-- This condition determines if an Item has a "dc.relation" field
              which specifies the openAIRE project ID. and if the documents which are EC funded -->
         <CustomCondition id="openaireRelationCondition">

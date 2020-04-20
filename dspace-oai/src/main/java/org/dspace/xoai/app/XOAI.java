@@ -357,8 +357,6 @@ public class XOAI {
         doc.addField("item.handle", handle);
 
         boolean hasOriginalBundleWithContent = this.hasOriginalBundleWithContent(item, Constants.CONTENT_BUNDLE_NAME);
-        log.info(String.format("item %s has files on original: %b", item.getHandle(), hasOriginalBundleWithContent));
-//        doc.addField("item.has_content_in_original_bundle_filter", hasOriginalBundleWithContent);
 
         boolean isEmbargoed = !this.isPublic(item);
         boolean isCurrentlyVisible = this.checkIfVisibleInOAI(item);
@@ -379,10 +377,9 @@ public class XOAI {
          */
 
         boolean isPublic = (!isEmbargoed  && hasOriginalBundleWithContent) || (isIndexed && isCurrentlyVisible);
-        log.info(String.format("This item %s is public: %b  (!isEmbargoed=%b || (isIndexed=%b && "
-                        + "isCurrentlyVisible=%b) "
-                        + "&& hasOriginalBundleWithContent= %b)", item.getHandle(), isPublic, isEmbargoed,
-                isIndexed, isCurrentlyVisible, hasOriginalBundleWithContent));
+        log.info(String.format("This item %s is public: %b  (!isEmbargoed=%b && hasOriginalBundleWithContent= %b) || "
+                        + "(isIndexed=%b && isCurrentlyVisible=%b)", item.getHandle(), isPublic, isEmbargoed,
+                hasOriginalBundleWithContent, isIndexed, isCurrentlyVisible));
 
         doc.addField("item.public", isPublic);
 
