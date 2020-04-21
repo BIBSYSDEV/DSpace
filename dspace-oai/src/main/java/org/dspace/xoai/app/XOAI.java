@@ -28,6 +28,8 @@ import org.dspace.authorize.service.AuthorizeService;
 import org.dspace.content.*;
 import org.dspace.content.Collection;
 import org.dspace.content.factory.ContentServiceFactory;
+import org.dspace.content.service.BitstreamService;
+import org.dspace.content.service.BundleService;
 import org.dspace.content.service.ItemService;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
@@ -475,11 +477,32 @@ public class XOAI {
             context.uncacheEntity(policy);
         }
 
-        if (!hasOriginalBundleWithContent(item, Constants.DEFAULT_BUNDLE_NAME) && hasOriginalBundleWithContent(item,
-                "ORE")) {
+        boolean hasNoOriginalBundleButOreBundle = !hasOriginalBundleWithContent(item, Constants.DEFAULT_BUNDLE_NAME)
+                && hasOriginalBundleWithContent(item,"ORE");
+        if (hasNoOriginalBundleButOreBundle) {
             return true;
         }
-        
+
+        List<Bundle> bundles = item.getBundles(Constants.CONTENT_BUNDLE_NAME);
+        for (Bundle bundle : bundles) {
+            if (Constants.CONTENT_BUNDLE_NAME.equals(bundle.getName())) {
+                for (Bitstream bitstream : bundle.getBitstreams()) {
+                    List<ResourcePolicy> bitstreamPolicies = authorizeService.getPoliciesActionFilter(context,
+                            bitstream, Constants.READ);
+                    for (ResourcePolicy policy : bitstreamPolicies) {
+                        if ((policy.getGroup()!=null) && (policy.getGroup().getName().equals("Anonymous"))) {
+                            if (policy.getStartDate() != null && policy.getStartDate().after(new Date())) {
+                                return true;
+                            }
+                            if (policy.getEndDate() != null && policy.getEndDate().after(new Date())) {
+                                return true;
+                            }
+                        }
+                        context.uncacheEntity(policy);
+                    }
+                }
+            }
+        }
         return false;
     }
 
@@ -716,8 +739,13 @@ public class XOAI {
                                 // if one bitstream in ORIGINAL-bundle is public-READ (no embargo on it) the item is
                                 // could be shown in oai
                                 if (authorizeService.authorizeActionBoolean(context, bitstream, Constants.READ)) {
+                                    log.info(String.format("No embargo on bitstream (%s) to item (%s).",
+                                            bitstream.getID(), item.getHandle()));
                                     isPublicReadable = true;
                                     break;
+                                } else {
+                                    log.info(String.format("There is an embargo on bitstream (%s) to item (%s).",
+                                            bitstream.getID(), item.getHandle()));
                                 }
                             } catch (SQLException ex) {
                                 log.error(ex.getMessage());
