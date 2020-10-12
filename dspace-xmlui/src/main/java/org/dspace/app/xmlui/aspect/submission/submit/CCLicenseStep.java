@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import javax.servlet.http.HttpSession;
 
 import org.apache.cocoon.environment.ObjectModelHelper;
