@@ -223,20 +223,6 @@
         </step>
     </command>
     <command>
-        <name>remove-group</name>
-        <description>Removes a group from the database</description>
-        <step>
-            <class>org.dspace.administer.RemoveGroup</class>
-        </step>
-    </command>
-    <command>
-        <name>remove-legacy-groups</name>
-        <description>Removes legacy groups from the database</description>
-        <step>
-            <class>org.dspace.administer.RemoveLegacyGroups</class>
-        </step>
-    </command>
-    <command>
         <name>solr-export-statistics</name>
         <description>Export usage statistics data from Solr for back-up purposes</description>
         <step passuserargs="true">
@@ -406,6 +392,13 @@
         <description>List number of downloaded bitstreams for all institutions.</description>
         <step>
             <class>org.dspace.app.statistics.ListNumberOfDownloadedBitstreamsPerInstitution</class>
+        </step>
+    </command>
+    <command>
+        <name>anonymize-statistics</name>
+        <description>Anonymize the ip values of the solr statistics</description>
+        <step>
+            <class>org.dspace.statistics.AnonymizeStatistics</class>
         </step>
     </command>
 </commands>
