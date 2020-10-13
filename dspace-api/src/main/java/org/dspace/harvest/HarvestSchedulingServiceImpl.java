@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -87,6 +89,24 @@ public class HarvestSchedulingServiceImpl implements HarvestSchedulingService {
     		hc.setHarvestStatus(HarvestedCollection.STATUS_READY);
             harvestedCollectionService.update(context, hc);
     	}
+    }
+
+    @Override
+    public void setPlusOneDayScheduler() throws SQLException {
+        Context context = new Context();
+        List<HarvestedCollection> harvestedCollections = harvestedCollectionService.findAll(context);
+        for (HarvestedCollection hc : harvestedCollections) {
+            if (!(HarvestedCollection.STATUS_OAI_ERROR != hc.getHarvestStatus() ||
+                    HarvestedCollection.STATUS_UNKNOWN_ERROR != hc.getHarvestStatus())) {
+                Date harvestStartTime = hc.getHarvestStartTime();
+                Calendar c = Calendar.getInstance();
+                c.setTime(harvestStartTime);
+                c.add(Calendar.DATE, 1);
+                hc.setHarvestStartTime(c.getTime());
+                hc.setHarvestStatus(HarvestedCollection.STATUS_READY);
+                harvestedCollectionService.update(context, hc);
+            }
+        }
     }
 
 }

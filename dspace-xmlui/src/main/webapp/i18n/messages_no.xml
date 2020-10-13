@@ -1962,6 +1962,7 @@
     <message key="xmlui.administrative.ControlPanel.harvest_label_actions">Handlinger</message>
     <message key="xmlui.administrative.ControlPanel.harvest_submit_start">Start harvester</message>
     <message key="xmlui.administrative.ControlPanel.harvest_submit_reset">Nullstill status for høsting</message>
+    <message key="xmlui.administrative.ControlPanel.harvest_submit_set_plus_one_day">Nullstill feilaktig høsting plus en dag</message>
     <message key="xmlui.administrative.ControlPanel.harvest_submit_resume">Fortsett</message>
     <message key="xmlui.administrative.ControlPanel.harvest_submit_pause">Pause</message>
     <message key="xmlui.administrative.ControlPanel.harvest_submit_stop">Stopp</message>
