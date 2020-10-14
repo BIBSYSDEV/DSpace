@@ -261,6 +261,12 @@ public class FlowContainerUtils
 				String ingestWorkflow = request.getParameter("ingest_workflow");
 				String harvest_starttime = request.getParameter("harvest_starttime");
 
+				Enumeration<String> parameterNames = request.getParameterNames();
+				while (parameterNames.hasMoreElements()) {
+					String element = parameterNames.nextElement();
+					System.out.println("parameter names: " + element + " with value : "+ request.getParameter(element));
+				}
+
 				System.out.println("harvest_starttime from request param: " + harvest_starttime);
 
 				hc.setIngestFilter(ingestFilter);
