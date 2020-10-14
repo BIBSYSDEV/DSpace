@@ -8,6 +8,8 @@
 package org.dspace.app.xmlui.aspect.administrative.collection;
 
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import org.apache.cocoon.environment.ObjectModelHelper;
@@ -82,6 +84,8 @@ public class SetupCollectionHarvestingForm extends AbstractDSpaceTransformer {
 	private static final Message T_label_bundle_versioning = message("xmlui.administrative.collection.SetupCollectionHarvestingForm.label_bundle_versioning");
 	private static final Message T_label_ingest_workflow = message("xmlui.administrative.collection.SetupCollectionHarvestingForm.label_ingest_workflow");
 
+	private static final Message T_label_harvester_starttime = message("xmlui.administrative.collection.EditCollectionHarvestingForm.label_harvest_result");
+
 	protected CollectionService collectionService = ContentServiceFactory.getInstance().getCollectionService();
 	protected HarvestedCollectionService harvestedCollectionService = HarvestServiceFactory.getInstance().getHarvestedCollectionService();
 
@@ -125,6 +129,9 @@ public class SetupCollectionHarvestingForm extends AbstractDSpaceTransformer {
 		String bundleVersioningValue;
 		String ingestWorkflowValue;
 		String ingestFilterValue;
+		int harvestStatusValue;
+		String harvestMessageValue;
+		Date harvestStartTimeValue;
 
 		if (hc != null && request.getParameter("submit_test") == null) {
 			oaiProviderValue = hc.getOaiSource();
@@ -135,6 +142,9 @@ public class SetupCollectionHarvestingForm extends AbstractDSpaceTransformer {
 			bundleVersioningValue = hc.getBundleVersioningStrategy();
 			ingestWorkflowValue = hc.getWorkflowProcess();
 			ingestFilterValue = hc.getIngestFilter();
+			harvestStatusValue = hc.getHarvestStatus();
+			harvestMessageValue = hc.getHarvestMessage();
+			harvestStartTimeValue = hc.getHarvestStartTime();
 		} else {
 			oaiProviderValue = parameters.getParameter("oaiProviderValue", "");
 			oaiSetIdValue = parameters.getParameter("oaiSetAll", "");
@@ -149,11 +159,30 @@ public class SetupCollectionHarvestingForm extends AbstractDSpaceTransformer {
 				harvestLevelValue = Integer.parseInt(harvestLevelString);
 			}
 
-			// default values for the varions ingest process options
+			// default values for the various ingest process options
 			metadataUpdateValue = "all";
 			bundleVersioningValue = "all";
 			ingestWorkflowValue = "archive";
 			ingestFilterValue = "none";
+			String harvestStatusString = parameters.getParameter("harvest_status", "" + HarvestedCollection.STATUS_READY);
+			if (harvestStatusString.length() == 0) {
+				harvestStatusValue = HarvestedCollection.STATUS_READY;
+			} else {
+				harvestStatusValue = Integer.parseInt(harvestStatusString);
+			}
+			harvestMessageValue = parameters.getParameter("harvest_message", "Harvest from " + oaiProviderValue);
+			String harvestStartTimeString = parameters.getParameter("harvest_starttime", new Date().toString());
+			if (harvestStartTimeString.length() == 0) {
+				harvestStartTimeValue = new Date();
+			} else {
+				try {
+					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS", Locale.ENGLISH);
+					harvestStartTimeValue = formatter.parse(harvestStartTimeString);
+				} catch (ParseException e) {
+					// we failed to read the date. Do nothing
+					harvestStartTimeValue = new Date();
+				}
+			}
 		}
 
 		// DIVISION: main
@@ -265,6 +294,15 @@ public class SetupCollectionHarvestingForm extends AbstractDSpaceTransformer {
 		Select ingestWorkflow = harvestOptions.addItem().addSelect("ingest_workflow");
 		String ingestWorkflowString = "oai.harvester.ingest_workflow.";
 		this.getOptions(ingestWorkflowValue, ingestWorkflow, ingestWorkflowString);
+
+
+		settings.addLabel(T_label_harvester_starttime);
+		settings.addItem().addContent(harvestStatusValue);
+		settings.addItem().addContent(harvestMessageValue);
+		Text harvesterStarttime = settings.addItem().addText("harvester_starttime");
+		harvesterStarttime.setSize(20);
+		harvesterStarttime.setValue(harvestStartTimeValue.toString());
+		harvesterStarttime.setHelp(T_label_harvester_starttime);
 
 		Para buttonList = main.addPara();
 		buttonList.addButton("submit_save").setValue(T_submit_save);

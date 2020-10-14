@@ -56,10 +56,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 /**
@@ -259,11 +258,20 @@ public class FlowContainerUtils
 				String metadataUpdate = request.getParameter("metadata_update");
 				String bundleVersioning = request.getParameter("bundle_versioning");
 				String ingestWorkflow = request.getParameter("ingest_workflow");
+				String harvest_starttime = request.getParameter("harvest_starttime");
 
 				hc.setIngestFilter(ingestFilter);
 				hc.setMetadataAuthorityType(metadataUpdate);
 				hc.setBundleVersioningStrategy(bundleVersioning);
 				hc.setWorkflowProcess(ingestWorkflow);
+				try {
+					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS", Locale.ENGLISH);
+					Date harvestDate = formatter.parse(harvest_starttime);
+					hc.setHarvestStartTime(harvestDate);
+					hc.setHarvestMessage("Harvested collection was reset with a new start date.");
+				} catch (ParseException e) {
+					// we failed to read the date. Do nothing
+				}
 			}
 			else {
 				result.setErrors(subResult.getErrors());
