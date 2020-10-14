@@ -56,6 +56,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
+import java.sql.SQLOutput;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -260,10 +261,19 @@ public class FlowContainerUtils
 				String ingestWorkflow = request.getParameter("ingest_workflow");
 				String harvest_starttime = request.getParameter("harvest_starttime");
 
+				System.out.println("harvest_starttime from request param: " + harvest_starttime);
+
 				hc.setIngestFilter(ingestFilter);
 				hc.setMetadataAuthorityType(metadataUpdate);
 				hc.setBundleVersioningStrategy(bundleVersioning);
 				hc.setWorkflowProcess(ingestWorkflow);
+
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(hc.getHarvestStartTime());
+				cal.add(Calendar.DATE, 1);
+
+				harvest_starttime = cal.getTime().toString();
+				System.out.println("harvest_starttime hard backed self: " + harvest_starttime);
 				try {
 					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS", Locale.ENGLISH);
 					Date harvestDate = formatter.parse(harvest_starttime);
