@@ -273,14 +273,9 @@ public class FlowContainerUtils
 				hc.setBundleVersioningStrategy(bundleVersioning);
 				hc.setWorkflowProcess(ingestWorkflow);
 
-				Calendar cal = Calendar.getInstance();
-				cal.setTime(hc.getHarvestStartTime());
-				cal.add(Calendar.DATE, 1);
-
-				harvest_starttime = cal.getTime().toString();
-				log.error("harvest_starttime hard backed self: " + harvest_starttime);
 				try {
-					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS", Locale.ENGLISH);
+					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SS", Locale.getDefault());
+					log.error("harvest_starttime før formater: " + harvest_starttime);
 					Date harvestDate = formatter.parse(harvest_starttime);
 					log.error("harvest_starttime from formatter: " + harvestDate.toString());
 					hc.setHarvestStartTime(harvestDate);
@@ -296,6 +291,7 @@ public class FlowContainerUtils
 			}
 			
 			harvestedCollectionService.update(context, hc);
+			log.error("startTime etter persistering: " + hc.getHarvestStartTime());
 		}
 		String message = "Harvesting options successfully modified.";
 		if (hc != null) {
