@@ -301,7 +301,6 @@ public class SetupCollectionHarvestingForm extends AbstractDSpaceTransformer {
 		Text harvesterStarttime = settings.addItem().addText("harvester_starttime");
 		harvesterStarttime.setSize(20);
 		harvesterStarttime.setValue(harvestStartTimeValue.toString());
-		harvesterStarttime.setHelp(T_label_harvester_starttime);
 
 		Para buttonList = main.addPara();
 		buttonList.addButton("submit_save").setValue(T_submit_save);
