@@ -258,7 +258,7 @@ public class FlowContainerUtils
 				String metadataUpdate = request.getParameter("metadata_update");
 				String bundleVersioning = request.getParameter("bundle_versioning");
 				String ingestWorkflow = request.getParameter("ingest_workflow");
-				String harvest_starttime = request.getParameter("harvest_starttime");
+				String harvest_starttime = request.getParameter("harvestLevelValue");
 
 				hc.setIngestFilter(ingestFilter);
 				hc.setMetadataAuthorityType(metadataUpdate);
