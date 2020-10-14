@@ -171,7 +171,7 @@ public class SetupCollectionHarvestingForm extends AbstractDSpaceTransformer {
 				harvestStatusValue = Integer.parseInt(harvestStatusString);
 			}
 			harvestMessageValue = parameters.getParameter("harvest_message", "Harvest from " + oaiProviderValue);
-			String harvestStartTimeString = parameters.getParameter("harvest_starttime", new Date().toString());
+			String harvestStartTimeString = parameters.getParameter("harvestStartTimeValue", new Date().toString());
 			if (harvestStartTimeString.length() == 0) {
 				harvestStartTimeValue = new Date();
 			} else {
@@ -297,7 +297,6 @@ public class SetupCollectionHarvestingForm extends AbstractDSpaceTransformer {
 
 
 		settings.addLabel(T_label_harvester_starttime);
-		settings.addItem().addContent(harvestStatusValue);
 		settings.addItem().addContent(harvestMessageValue);
 		Text harvesterStarttime = settings.addItem().addText("harvester_starttime");
 		harvesterStarttime.setSize(20);
