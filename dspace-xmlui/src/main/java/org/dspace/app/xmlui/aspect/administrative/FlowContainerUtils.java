@@ -264,9 +264,7 @@ public class FlowContainerUtils
 				String bundleVersioning = request.getParameter("bundle_versioning");
 				String ingestWorkflow = request.getParameter("ingest_workflow");
 				String harvest_starttime = request.getParameter("harvest_starttime");
-
-				log.error("harvest_starttime from request param: " + harvest_starttime);
-				log.error("harvest_starttime from database: " + hc.getHarvestStartTime());
+				log.debug("harvest_starttime from request: " + harvest_starttime);
 
 				hc.setIngestFilter(ingestFilter);
 				hc.setMetadataAuthorityType(metadataUpdate);
@@ -275,9 +273,8 @@ public class FlowContainerUtils
 
 				try {
 					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SS", Locale.getDefault());
-					log.error("harvest_starttime før formater: " + harvest_starttime);
 					Date harvestDate = formatter.parse(harvest_starttime);
-					log.error("harvest_starttime from formatter: " + harvestDate.toString());
+					log.debug("harvest_starttime from formatter: " + harvestDate.toString());
 					hc.setHarvestStartTime(harvestDate);
 					hc.setHarvestMessage("Harvested collection was reset with a new start date.");
 				} catch (ParseException e) {
