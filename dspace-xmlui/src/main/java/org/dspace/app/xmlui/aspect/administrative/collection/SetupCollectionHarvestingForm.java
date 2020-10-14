@@ -129,7 +129,6 @@ public class SetupCollectionHarvestingForm extends AbstractDSpaceTransformer {
 		String bundleVersioningValue;
 		String ingestWorkflowValue;
 		String ingestFilterValue;
-		int harvestStatusValue;
 		String harvestMessageValue;
 		Date harvestStartTimeValue;
 
@@ -142,7 +141,6 @@ public class SetupCollectionHarvestingForm extends AbstractDSpaceTransformer {
 			bundleVersioningValue = hc.getBundleVersioningStrategy();
 			ingestWorkflowValue = hc.getWorkflowProcess();
 			ingestFilterValue = hc.getIngestFilter();
-			harvestStatusValue = hc.getHarvestStatus();
 			harvestMessageValue = hc.getHarvestMessage();
 			harvestStartTimeValue = hc.getHarvestStartTime();
 		} else {
@@ -292,9 +290,9 @@ public class SetupCollectionHarvestingForm extends AbstractDSpaceTransformer {
 
 		settings.addLabel(T_label_harvester_starttime);
 		settings.addItem().addContent(harvestMessageValue);
-		Text harvesterStarttime = settings.addItem().addText("harvester_starttime");
-		harvesterStarttime.setSize(20);
-		harvesterStarttime.setValue(harvestStartTimeValue.toString());
+		Text harvestStarttime = settings.addItem().addText("harvest_starttime");
+		harvestStarttime.setSize(20);
+		harvestStarttime.setValue(harvestStartTimeValue.toString());
 
 		Para buttonList = main.addPara();
 		buttonList.addButton("submit_save").setValue(T_submit_save);
