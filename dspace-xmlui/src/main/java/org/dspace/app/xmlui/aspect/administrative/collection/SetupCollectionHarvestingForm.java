@@ -164,13 +164,7 @@ public class SetupCollectionHarvestingForm extends AbstractDSpaceTransformer {
 			bundleVersioningValue = "all";
 			ingestWorkflowValue = "archive";
 			ingestFilterValue = "none";
-			String harvestStatusString = parameters.getParameter("harvest_status", "" + HarvestedCollection.STATUS_READY);
-			if (harvestStatusString.length() == 0) {
-				harvestStatusValue = HarvestedCollection.STATUS_READY;
-			} else {
-				harvestStatusValue = Integer.parseInt(harvestStatusString);
-			}
-			harvestMessageValue = parameters.getParameter("harvest_message", "Harvest from " + oaiProviderValue);
+			harvestMessageValue = parameters.getParameter("harvestMessageValue", "Harvest from " + oaiProviderValue);
 			String harvestStartTimeString = parameters.getParameter("harvestStartTimeValue", new Date().toString());
 			if (harvestStartTimeString.length() == 0) {
 				harvestStartTimeValue = new Date();
