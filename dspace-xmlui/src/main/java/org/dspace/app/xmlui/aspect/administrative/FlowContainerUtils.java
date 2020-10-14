@@ -410,39 +410,6 @@ public class FlowContainerUtils
 		return processRunCollectionHarvest(context, collectionID, request);
 	}
 
-	public static FlowResult processImportNextDayCollection(Context context, UUID collectionID, Request request) throws SQLException, IOException, AuthorizeException, CrosswalkException, ParserConfigurationException, SAXException, TransformerException, BrowseException
-	{
-		Context.Mode originalMode = context.getCurrentMode();
-		context.setMode(Context.Mode.BATCH_EDIT);
-
-		Collection collection = collectionService.find(context, collectionID);
-		HarvestedCollection hc = harvestedCollectionService.find(context, collection);
-
-		Iterator<Item> it = itemService.findByCollection(context, collection);
-		while (it.hasNext()) {
-			Item item = it.next();
-			collectionService.removeItem(context, collection, item);
-			context.uncacheEntity(item);
-		}
-
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(hc.getHarvestStartTime());
-		calendar.add(Calendar.DATE, 1);
-
-		hc.setHarvestStartTime(calendar.getTime());
-		hc.setHarvestStatus(HarvestedCollection.STATUS_READY);
-		hc.setLastHarvested(null);
-		hc.setHarvestMessage("Set harvested collection to skip one day.");
-		harvestedCollectionService.update(context, hc);
-		collectionService.update(context, collection);
-        // update the context?
-		//context.dispatchEvent() // not sure if this is required yet.ts();
-
-		context.setMode(originalMode);
-
-		return processRunCollectionHarvest(context, collectionID, request);
-	}
-
 	/**
 	 * Test the supplied OAI settings. 
 	 * 
