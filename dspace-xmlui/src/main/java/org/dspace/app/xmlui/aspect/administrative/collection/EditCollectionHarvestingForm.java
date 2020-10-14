@@ -76,6 +76,7 @@ public class EditCollectionHarvestingForm extends AbstractDSpaceTransformer
 	private static final Message T_submit_change_settings = message("xmlui.administrative.collection.EditCollectionHarvestingForm.submit_change_settings");
 	private static final Message T_submit_import_now = message("xmlui.administrative.collection.EditCollectionHarvestingForm.submit_import_now");
 	private static final Message T_submit_reimport_collection = message("xmlui.administrative.collection.EditCollectionHarvestingForm.submit_reimport_collection");
+	private static final Message T_submit_import_next_day = message("xmlui.administrative.collection.EditCollectionHarvestingForm.submit_import_next_day");
 
 
 	private static final Message T_label_ingest_filter = message("xmlui.administrative.collection.EditCollectionHarvestingForm.label_ingest_filter");
@@ -121,7 +122,7 @@ public class EditCollectionHarvestingForm extends AbstractDSpaceTransformer
 	    options.addItem().addXref(baseURL+"&submit_metadata",T_options_metadata);
 	    options.addItem().addXref(baseURL+"&submit_roles",T_options_roles);
 	    options.addItem().addHighlight("bold").addXref(baseURL+"&submit_harvesting",T_options_harvest);
-            options.addItem().addXref(baseURL+"&submit_curate",T_options_curate);
+        options.addItem().addXref(baseURL+"&submit_curate",T_options_curate);
 	    
 	    
 	    // The top-level, all-setting, countent source radio button
@@ -211,7 +212,8 @@ public class EditCollectionHarvestingForm extends AbstractDSpaceTransformer
 	    harvestButtons.addButton("submit_change").setValue(T_submit_change_settings);
 	    harvestButtons.addButton("submit_import_now").setValue(T_submit_import_now);
 	    harvestButtons.addButton("submit_reimport").setValue(T_submit_reimport_collection);
-	      
+	    harvestButtons.addButton("submit_import_next_day").setValue(T_submit_import_next_day);
+
 		Para buttonList = main.addPara();
 	    buttonList.addButton("submit_save").setValue(T_submit_save);
 	    buttonList.addButton("submit_return").setValue(T_submit_return);

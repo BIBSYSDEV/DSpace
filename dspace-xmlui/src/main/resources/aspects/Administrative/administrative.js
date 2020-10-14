@@ -2856,6 +2856,10 @@ function doEditCollectionHarvesting(collectionID)
 		{
 			doSetupCollectionHarvesting(collectionID);
 		}
+		else if (cocoon.request.get("submit_import_next_day"))
+		{
+			result = FlowContainerUtils.processImportNextDayCollection(getDSContext(), collectionID, cocoon.request);
+		}
 	} while (true);
 }
 
