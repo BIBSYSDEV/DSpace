@@ -9,6 +9,7 @@ package org.dspace.app.xmlui.aspect.administrative;
 
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.servlet.multipart.Part;
+import org.dspace.app.xmlui.aspect.administrative.mapper.SearchItemForm;
 import org.dspace.app.xmlui.utils.UIException;
 import org.dspace.app.xmlui.wing.Message;
 import org.dspace.authorize.AuthorizeException;
@@ -47,6 +48,8 @@ import org.dspace.xmlworkflow.cristin.UpdateWorkflow;
 import org.dspace.xmlworkflow.service.XmlWorkflowService;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -56,7 +59,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
-import java.sql.SQLOutput;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -89,7 +91,9 @@ public class FlowContainerUtils
 	protected static final HarvestedCollectionService harvestedCollectionService = HarvestServiceFactory.getInstance().getHarvestedCollectionService();
 	protected static final WorkflowService workflowService = WorkflowServiceFactory.getInstance().getWorkflowService();
 
-	
+
+	private static final Logger log = LoggerFactory.getLogger(FlowContainerUtils.class);
+
 	// Collection related functions
 
 	/**
@@ -264,10 +268,10 @@ public class FlowContainerUtils
 				Enumeration<String> parameterNames = request.getParameterNames();
 				while (parameterNames.hasMoreElements()) {
 					String element = parameterNames.nextElement();
-					System.out.println("parameter names: " + element + " with value : "+ request.getParameter(element));
+					log.error("parameter names: " + element + " with value : "+ request.getParameter(element));
 				}
 
-				System.out.println("harvest_starttime from request param: " + harvest_starttime);
+				log.error("harvest_starttime from request param: " + harvest_starttime);
 
 				hc.setIngestFilter(ingestFilter);
 				hc.setMetadataAuthorityType(metadataUpdate);
@@ -279,7 +283,7 @@ public class FlowContainerUtils
 				cal.add(Calendar.DATE, 1);
 
 				harvest_starttime = cal.getTime().toString();
-				System.out.println("harvest_starttime hard backed self: " + harvest_starttime);
+				log.error("harvest_starttime hard backed self: " + harvest_starttime);
 				try {
 					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS", Locale.ENGLISH);
 					Date harvestDate = formatter.parse(harvest_starttime);
