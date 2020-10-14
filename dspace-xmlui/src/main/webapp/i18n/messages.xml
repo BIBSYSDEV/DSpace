@@ -1924,7 +1924,6 @@
     <message key="xmlui.administrative.ControlPanel.harvest_label_actions">Actions</message>
     <message key="xmlui.administrative.ControlPanel.harvest_submit_start">Start Harvester</message>
     <message key="xmlui.administrative.ControlPanel.harvest_submit_reset">Reset Harvest Status</message>
-    <message key="xmlui.administrative.ControlPanel.harvest_submit_set_plus_one_day">Reset Faulty Harvest plus one day</message>
     <message key="xmlui.administrative.ControlPanel.harvest_submit_resume">Resume</message>
     <message key="xmlui.administrative.ControlPanel.harvest_submit_pause">Pause</message>
     <message key="xmlui.administrative.ControlPanel.harvest_submit_stop">Stop</message>

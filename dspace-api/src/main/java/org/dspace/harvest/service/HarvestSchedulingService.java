@@ -42,6 +42,4 @@ public interface HarvestSchedulingService {
 
 
     void resetScheduler() throws SQLException, AuthorizeException, IOException;
-
-    void setPlusOneDayScheduler() throws SQLException;
 }

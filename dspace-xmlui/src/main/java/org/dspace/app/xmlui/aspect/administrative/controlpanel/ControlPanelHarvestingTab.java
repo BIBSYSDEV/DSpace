@@ -43,8 +43,6 @@ public class ControlPanelHarvestingTab extends AbstractControlPanelTab
 
     private static final Message T_harvest_submit_reset = message("xmlui.administrative.ControlPanel.harvest_submit_reset");
 
-    private static final Message T_harvest_submit_set_plus_one_day = message("xmlui.administrative.ControlPanel.harvest_submit_set_plus_one_day");
-
     private static final Message T_harvest_submit_resume = message("xmlui.administrative.ControlPanel.harvest_submit_resume");
 
     private static final Message T_harvest_submit_pause = message("xmlui.administrative.ControlPanel.harvest_submit_pause");
@@ -94,8 +92,6 @@ public class ControlPanelHarvestingTab extends AbstractControlPanelTab
                     T_harvest_submit_start);
             actionsItem.addButton("submit_harvest_reset").setValue(
                     T_harvest_submit_reset);
-            actionsItem.addButton("submit_harvest_set_plus_one_day").setValue(
-                    T_harvest_submit_set_plus_one_day);
         }
         if (HarvestScheduler
                 .hasStatus(HarvestScheduler.HARVESTER_STATUS_PAUSED))
