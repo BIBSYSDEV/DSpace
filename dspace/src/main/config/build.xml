@@ -81,7 +81,7 @@ Common usage:
 
     <!-- Default location of GeoLite2 City database to download. This may be overridden, if URL path changes. -->
 <!--    <property name="geolite" value="http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz" />-->
-    <property name="geolite" value="https://web.archive.org/web/20191227182209/https://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz" />
+    <property name="geolite" value="https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=fg9bgE14TaHD4geO&suffix=tar.gz" />
 
     <!-- Default location of lucene-core JAR to download (for update_solr_indexes). This may be overridden, if URL path changes. -->
     <!-- NOTE: this URL should have the version of the JAR replaced with "[version]" -->
