@@ -80,7 +80,6 @@ Common usage:
     </tstamp>
 
     <!-- Default location of GeoLite2 City database to download. This may be overridden, if URL path changes. -->
-<!--    <property name="geolite" value="http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz" />-->
     <property name="geolite" value="https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&amp;license_key=hjT94vfaXMl9A3xZ&amp;suffix=tar.gz" />
 
     <!-- Default location of lucene-core JAR to download (for update_solr_indexes). This may be overridden, if URL path changes. -->
