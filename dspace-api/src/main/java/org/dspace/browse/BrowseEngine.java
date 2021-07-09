@@ -219,16 +219,9 @@ public class BrowseEngine
                 String value = scope.getFilterValue();
                 rawValue = value;
 
-                System.out.println("BrowseByItem rawValue: "+ rawValue);
-
                 // make sure the incoming value is normalised
                 value = OrderFormat.makeSortString(value, scope.getFilterValueLang(),
                             scope.getBrowseIndex().getDataType());
-
-                System.out.println("BrowseByItem noramlized value: "+ value);
-
-                if (rawValue.startsWith("Å"))
-                    throw new BrowseException("BrowseByItem noramlized value: "+ value + "BrowseByItem rawValue: "+ rawValue);
 
                 dao.setAuthorityValue(scope.getAuthorityValue());
 
