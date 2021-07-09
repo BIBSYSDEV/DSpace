@@ -45,7 +45,7 @@ public class OrderFormat
 	// Array of all available order delegates - avoids excessive calls to plugin manager
 	private static final String[] delegates = CoreServiceFactory.getInstance().getPluginService().getAllPluginNames(OrderFormatDelegate.class);
 
-    private static final OrderFormatDelegate authorDelegate = new OrderFormatTitle();
+    private static final OrderFormatDelegate authorDelegate = new OrderFormatTitleMarc21();
     private static final OrderFormatDelegate titleDelegate  = new OrderFormatTitle();
     private static final OrderFormatDelegate textDelegate   = new OrderFormatText();
     private static final OrderFormatDelegate dateDelegate   = new OrderFormatDate();
