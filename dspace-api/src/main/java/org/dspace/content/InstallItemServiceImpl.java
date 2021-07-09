@@ -77,6 +77,8 @@ public class InstallItemServiceImpl implements InstallItemService
             throw new RuntimeException("Can't create an Identifier!", e);
         }
 
+//        cleanHtmlOnItem(item);
+
         populateMetadata(c, item);
 
         // Finish up / archive the item
